@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>Server shop</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+<nav>
+	<div class="logo">
+		<a href="/index.html">Server shop</a>
+	</div>
+	<div class="link">
+		<ul class="menu">
+			<li class="dropdown">
+				<div class="dropbtn">
+					<a>회원</a>
+				</div>
+				<ul class="dropdown-content">
+					<li><a href="/member/createMemberForm.html">회원가입</a></li>
+					<li><a href="/member/memberList.html">회원 조회</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<div class="dropbtn">
+					<a>상품</a>
+				</div>
+				<ul class="dropdown-content">
+					<li><a href="/item/createItemForm.html">상품 등록</a></li>
+					<li><a href="/item/itemList.html">상품 조회</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<div class="dropbtn">
+					<a>주문</a>
+				</div>
+				<ul class="dropdown-content">
+					<li><a href="/order/orderForm.html">상품 주문</a></li>
+					<li><a href="/order/orderList.html">주문내역 조회</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<div class="dropbtn">
+					<a>주문상품</a>
+				</div>
+				<ul class="dropdown-content">
+					<li><a href="/orderItem/orderItemList.html">주문상품 조회</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<div class="dropbtn">
+					<a>사용</a>
+				</div>
+				<ul class="dropdown-content">
+					<li><a href="/usage/usageForm.html">서버 사용</a></li>
+					<li><a href="/usage/usageList.html">사용내역 조회</a></li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="member">
+			<li class="join">
+				<a href="/member/createMemberForm.html">회원가입</a>
+			</li>
+			<li class="login">
+				<a href="/member/loginForm.html">로그인</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<main>
+	<div class="card">
+		<h2 class="card-title">주문상품 조회</h2>
+		<form>
+			<label>주문</label>
+			<select name="orderId">
+				<option value="1">주문1</option>
+				<option value="2">주문2</option>
+				<option value="3">주문3</option>
+			</select>
+			<label>상품</label>
+			<select name="itemId">
+				<option value="1">상품1</option>
+				<option value="2">상품2</option>
+				<option value="3">상품3</option>
+			</select>
+			<label>주문상품명</label>
+			<input name="name" type="text" />
+			<label>수량</label>
+			<input name="quantity" type="text" />
+			<label>주문가격 (원)</label>
+			<input name="orderPrice" type="text" />
+			<label>대여시작일자</label>
+			<input name="startDate" type="text" id="start-date" />
+			<label>대여종료일자</label>
+			<input name="endDate" type="text" id="end-date" />
+			<label>상태</label>
+			<select name="status">
+				<option value="active">활성</option>
+				<option value="suspend">중단</option>
+				<option value="expire">만료</option>
+			</select>
+			<input type="submit" value="조회" />
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table>
+			<thead>
+			<tr>
+				<th>주문</th>
+				<th>상품</th>
+				<th>주문상품명</th>
+				<th>수량</th>
+				<th>주문가격 (원)</th>
+				<th>대여시작일자</th>
+				<th>대여종료일자</th>
+				<th>상태</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>주문1</td>
+				<td>상품1</td>
+				<td>주문상품1</td>
+				<td>11</td>
+				<td>11111</td>
+				<td>2001년 1월 1일 1시 1분 1초</td>
+				<td>2001년 2월 1일 1시 1분 1초</td>
+				<td>활성</td>
+			</tr>
+			<tr>
+				<td>주문2</td>
+				<td>상품2</td>
+				<td>주문상품2</td>
+				<td>22</td>
+				<td>22222</td>
+				<td>2002년 2월 2일 2시 2분 2초</td>
+				<td>2002년 4월 2일 2시 2분 2초</td>
+				<td>중단</td>
+			</tr>
+			<tr>
+				<td>주문3</td>
+				<td>상품3</td>
+				<td>주문상품3</td>
+				<td>33</td>
+				<td>33333</td>
+				<td>2003년 3월 3일 3시 3분 3초</td>
+				<td>2003년 6월 3일 3시 3분 3초</td>
+				<td>만료</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</main>
+<footer>
+	<p>&copy; 2023 Server shop</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

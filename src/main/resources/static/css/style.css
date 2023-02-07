@@ -1,0 +1,362 @@
+* {
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+h1 {
+    margin: 12px 0;
+
+    font-size: 32px;
+}
+
+h2 {
+    margin: 8px 0;
+
+    font-size: 24px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+button, input[type=button], input[type=submit], input[type=reset] {
+    border: none;
+    border-radius: 8px;
+
+    background-color: #36e;
+    color: white;
+    font-weight: bold;
+}
+
+button {
+    padding: 5px 12px;
+}
+
+button.cancel {
+    background-color: #e33;
+}
+
+nav {
+    padding: 0 10%;
+
+    min-height: 50px;
+
+    background-color: #333;
+    color: white;
+
+    user-select: none;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+}
+
+nav .logo {
+    flex: 0 0 auto;
+
+    margin: 8px 0;
+
+    display: flex;
+}
+
+nav .logo a {
+    font-size: 20px;
+
+    margin: auto;
+}
+
+nav .link {
+    flex: auto;
+
+    display: flex;
+}
+
+nav .menu {
+    flex: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav .menu > li {
+    min-height: 30px;
+
+    flex: 0 0 auto;
+}
+
+nav .dropbtn {
+    height: 100%;
+}
+
+nav .dropbtn a {
+    padding: 0 20px;
+
+    height: 100%;
+
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+}
+
+nav .dropdown .dropdown-content {
+    position: absolute;
+    z-index: 1;
+
+    background-color: whitesmoke;
+    color: black;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+    font-size: 15px;
+
+    display: none;
+}
+
+nav .dropdown .dropdown-content li {
+    display: flex;
+}
+
+nav .dropdown .dropdown-content li a {
+    padding: 12px 20px;
+
+    width: 100%;
+
+    font-weight: normal;
+
+    display: block;
+}
+
+nav .dropdown:hover {
+    background-color: red;
+}
+
+nav .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+nav .dropdown:hover li:hover {
+    background-color: #ddd;
+}
+
+nav .member {
+    flex: 0 1 auto;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+nav .member li {
+    flex: 0 0 auto;
+
+    margin: auto;
+
+    display: flex;
+}
+
+nav .member li a {
+    margin: 0 4px;
+
+    font-size: 13px;
+}
+
+@media screen and (any-pointer:coarse) {
+    nav .menu > li {
+        min-height: 50px;
+    }
+
+    nav .dropbtn {
+        display: flex;
+    }
+
+    nav .dropbtn a {
+        margin: auto 20px;
+        padding: 0;
+
+        height: fit-content;
+    }
+
+    nav .dropdown .dropdown-content li a {
+        margin: 12px 20px;
+        padding: 0;
+    }
+}
+
+@media (max-width: 375px) {
+    nav {
+        padding: 0;
+    }
+
+    nav .member a {
+        padding: 0;
+        margin: 0 4px;
+    }
+}
+
+.jumbotron {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #f4f4f4;
+}
+
+.jumbotron-content {
+    margin: auto;
+
+    width: 80%;
+    max-width: 768px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 50px;
+}
+
+.jumbotron-content div {
+    width: 270px;
+}
+
+.jumbotron button {
+    margin-top: 16px;
+}
+
+.jumbotron .jumbotron-text {
+    flex: auto;
+}
+
+.jumbotron .jumbotron-image {
+    flex: auto;
+    min-height: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #335;
+}
+
+.album {
+    margin: auto;
+    padding: 50px 0;
+
+    width: 80%;
+    max-width: 768px;
+
+    background-color: white;
+    color: black;
+}
+
+.album .album-title {
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+.album .album-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.album .album-body .album-item .album-item-image {
+    border: 2px solid silver;
+    border-radius: 8px;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.album .album-body .album-item .album-item-text {
+    text-align: center;
+    font-weight: bold;
+}
+
+main .card {
+    margin: 20px auto;
+    padding: 12px 24px;
+
+    width: 100%;
+    max-width: 600px;
+
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+main .card-title {
+    padding: 8px 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+label {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: bold;
+
+    display: inline-block;
+}
+
+input, select {
+    width: 100%;
+    margin: 4px 0 8px;
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    outline: none;
+}
+
+table {
+    margin: auto;
+}
+
+table th {
+    padding: 10px;
+    border: 1px solid #ddd;
+
+    background-color: #999;
+    color: white;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+table td {
+    padding: 4px 10px;
+    border: 1px solid #ddd;
+
+    font-size: 14px;
+}
+
+.table-responsive {
+    margin: 20px 0;
+
+    overflow-x: auto;
+    white-space: nowrap;
+
+    max-width: 100%;
+}
+
+footer {
+    height: 50px;
+    background-color: white;
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    font-size: 14px;
+}
