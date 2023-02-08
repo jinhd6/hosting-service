@@ -30,6 +30,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    private Long extendPeriod;
+
     protected Order() {
     }
 
@@ -42,5 +44,6 @@ public class Order {
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
         this.customerAddress = customerAddress;
+        this.extendPeriod = extendPeriod;
     }
 }
