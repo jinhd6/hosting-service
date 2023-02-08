@@ -14,9 +14,8 @@ public class Item {
     private Long id;
 
     private String name;
-    private String description;
-    private Long period;
     private Long price;
+    private Long period;
 
     @Enumerated(EnumType.STRING)
     private ItemStatus status;

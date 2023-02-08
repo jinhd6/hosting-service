@@ -13,12 +13,13 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Embedded
-    private OrderInfo orderInfo;
-
     private String username;
     private String password;
     private String email;
+
+    private String realName;
+    private String phoneNumber;
+    private String address;
 
     @Enumerated(EnumType.STRING)
     private MemberType type;

@@ -22,8 +22,9 @@ public class OrderItem {
     private Item item;
 
     private String name;
-    private Long quantity;
-    private Long orderPrice;
     private LocalDateTime activateDate;
     private LocalDateTime expireDate;
+
+    private Long orderPrice;
+    private Long orderPeriod;
 }

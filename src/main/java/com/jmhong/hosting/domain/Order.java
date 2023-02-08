@@ -18,11 +18,11 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Embedded
-    private OrderInfo orderInfo;
-
     private LocalDateTime orderDate;
-    private Long period;
+
+    private String customerName;
+    private String customerPhoneNumber;
+    private String customerAddress;
 
     @Enumerated(EnumType.STRING)
     private OrderType type;
