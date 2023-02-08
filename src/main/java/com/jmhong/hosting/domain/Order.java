@@ -29,4 +29,18 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    protected Order() {
+    }
+
+    public Order(Long id, Member member, LocalDateTime orderDate,
+                 String customerName, String customerPhoneNumber, String customerAddress,
+                 Long extendPeriod) {
+        this.id = id;
+        this.member = member;
+        this.orderDate = orderDate;
+        this.customerName = customerName;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.customerAddress = customerAddress;
+    }
 }

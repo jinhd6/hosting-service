@@ -19,4 +19,21 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
+
+    protected Item() {
+    }
+
+    public Item(Long id, String name, Long price, Long period, ItemStatus status) {
+        this.name = name;
+        this.price = price;
+        this.period = period;
+        this.status = status;
+    }
+
+    public void updateItemInfo(String name, Long price, Long period, ItemStatus status) {
+        this.name = name;
+        this.price = price;
+        this.period = period;
+        this.status = status;
+    }
 }

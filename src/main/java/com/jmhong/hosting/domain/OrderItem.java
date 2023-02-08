@@ -27,4 +27,28 @@ public class OrderItem {
 
     private Long orderPrice;
     private Long orderPeriod;
+
+    protected OrderItem() {
+    }
+
+    public OrderItem(Long id, Order order, Item item,
+                     String name, LocalDateTime activateDate, LocalDateTime expireDate,
+                     Long orderPrice, Long orderPeriod) {
+        this.id = id;
+        this.order = order;
+        this.item = item;
+        this.name = name;
+        this.activateDate = activateDate;
+        this.expireDate = expireDate;
+        this.orderPrice = orderPrice;
+        this.orderPeriod = orderPeriod;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateExpireDate(LocalDateTime expireDate) {
+        this.expireDate = expireDate;
+    }
 }

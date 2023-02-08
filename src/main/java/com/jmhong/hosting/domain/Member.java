@@ -23,4 +23,25 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberType type;
+
+    protected Member() {
+    }
+
+    public Member(Long id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public void updateMemberInfo(String password, String email) {
+        this.password = password;
+        this.email = email;
+    }
+
+    public void updateDeliveryInfo(String realName, String phoneNumber, String address) {
+        this.realName = realName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
 }

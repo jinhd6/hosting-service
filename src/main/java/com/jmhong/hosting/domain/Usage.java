@@ -23,4 +23,15 @@ public class Usage {
 
     private LocalDateTime connectDate;
     private LocalDateTime disConnectDate;
+
+    protected Usage() {
+    }
+
+    public Usage(Long id, Member member, OrderItem orderItem, LocalDateTime connectDate, LocalDateTime disconnectDate) {
+        this.id = id;
+        this.member = member;
+        this.orderItem = orderItem;
+        this.connectDate = connectDate;
+        this.disConnectDate = disconnectDate;
+    }
 }
