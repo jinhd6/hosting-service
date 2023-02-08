@@ -37,13 +37,19 @@ public class Order {
 
     public Order(Long id, Member member, LocalDateTime orderDate,
                  String customerName, String customerPhoneNumber, String customerAddress,
-                 Long extendPeriod) {
+                 OrderType type, OrderStatus status, Long extendPeriod) {
         this.id = id;
         this.member = member;
         this.orderDate = orderDate;
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
         this.customerAddress = customerAddress;
+        this.type = type;
+        this.status = status;
         this.extendPeriod = extendPeriod;
+    }
+
+    public void updateStatus(OrderStatus status) {
+        this.status = status;
     }
 }
