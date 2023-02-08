@@ -3,7 +3,6 @@ package com.jmhong.hosting.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,10 +26,11 @@ public class Member {
     protected Member() {
     }
 
-    public Member(String username, String password, String email) {
+    public Member(String username, String password, String email, MemberType type) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.type = type;
     }
 
     public void updateMemberInfo(String password, String email) {
