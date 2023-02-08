@@ -27,8 +27,7 @@ public class Usage {
     protected Usage() {
     }
 
-    public Usage(Long id, Member member, OrderItem orderItem, LocalDateTime connectDate, LocalDateTime disconnectDate) {
-        this.id = id;
+    public Usage(Member member, OrderItem orderItem, LocalDateTime connectDate, LocalDateTime disconnectDate) {
         this.member = member;
         this.orderItem = orderItem;
         this.connectDate = connectDate;

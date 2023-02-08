@@ -31,10 +31,9 @@ public class OrderItem {
     protected OrderItem() {
     }
 
-    public OrderItem(Long id, Order order, Item item,
+    public OrderItem(Order order, Item item,
                      String name, LocalDateTime activateDate, LocalDateTime expireDate,
                      Long orderPrice, Long orderPeriod) {
-        this.id = id;
         this.order = order;
         this.item = item;
         this.name = name;

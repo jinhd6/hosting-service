@@ -35,10 +35,9 @@ public class Order {
     protected Order() {
     }
 
-    public Order(Long id, Member member, LocalDateTime orderDate,
+    public Order(Member member, LocalDateTime orderDate,
                  String customerName, String customerPhoneNumber, String customerAddress,
                  OrderType type, OrderStatus status, Long extendPeriod) {
-        this.id = id;
         this.member = member;
         this.orderDate = orderDate;
         this.customerName = customerName;

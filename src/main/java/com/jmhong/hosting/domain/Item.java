@@ -23,7 +23,7 @@ public class Item {
     protected Item() {
     }
 
-    public Item(Long id, String name, Long price, Long period, ItemStatus status) {
+    public Item(String name, Long price, Long period, ItemStatus status) {
         this.name = name;
         this.price = price;
         this.period = period;

@@ -27,8 +27,7 @@ public class Member {
     protected Member() {
     }
 
-    public Member(Long id, String username, String password, String email) {
-        this.id = id;
+    public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
