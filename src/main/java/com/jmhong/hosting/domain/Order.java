@@ -29,7 +29,4 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

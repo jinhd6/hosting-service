@@ -22,7 +22,4 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberType type;
-
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

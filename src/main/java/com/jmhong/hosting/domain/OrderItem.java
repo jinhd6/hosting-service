@@ -26,7 +26,4 @@ public class OrderItem {
     private Long orderPrice;
     private LocalDateTime activateDate;
     private LocalDateTime expireDate;
-
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

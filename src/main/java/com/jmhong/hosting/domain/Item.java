@@ -20,7 +20,4 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
-
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }

@@ -23,7 +23,4 @@ public class Usage {
 
     private LocalDateTime connectDate;
     private LocalDateTime disConnectDate;
-
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
 }
