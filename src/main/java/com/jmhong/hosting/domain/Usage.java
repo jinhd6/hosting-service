@@ -22,7 +22,7 @@ public class Usage {
     private OrderItem orderItem;
 
     private LocalDateTime connectDate;
-    private LocalDateTime disConnectDate;
+    private LocalDateTime disconnectDate;
 
     protected Usage() {
     }
@@ -32,6 +32,6 @@ public class Usage {
         this.member = member;
         this.orderItem = orderItem;
         this.connectDate = connectDate;
-        this.disConnectDate = disconnectDate;
+        this.disconnectDate = disconnectDate;
     }
 }
