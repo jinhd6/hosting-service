@@ -10,7 +10,7 @@ public class SimpleJpqlBuilder {
     private String jpql;
     private boolean isFirstCondition = true;
 
-    protected SimpleJpqlBuilder() {
+    private SimpleJpqlBuilder() {
     }
 
     public SimpleJpqlBuilder(String jpql) {
