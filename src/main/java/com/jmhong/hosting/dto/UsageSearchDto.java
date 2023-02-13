@@ -10,9 +10,6 @@ public class UsageSearchDto {
     private String memberUserName;
     private String orderItemName;
 
-    private UsageSearchDto() {
-    }
-
     public UsageSearchDto(String memberUserName, String orderItemName) {
         this.memberUserName = memberUserName;
         this.orderItemName = orderItemName;

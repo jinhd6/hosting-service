@@ -11,9 +11,6 @@ public class ItemSearchDto {
     private String name;
     private ItemStatus status;
 
-    private ItemSearchDto() {
-    }
-
     public ItemSearchDto(String name, ItemStatus status) {
         this.name = name;
         this.status = status;

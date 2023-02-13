@@ -16,9 +16,6 @@ public class OrderSearchDto {
     private OrderType type;
     private OrderStatus status;
 
-    private OrderSearchDto() {
-    }
-
     public OrderSearchDto(String memberUsername, String customerName, String customerPhoneNumber, String customerAddress, OrderType type, OrderStatus status) {
         this.memberUsername = memberUsername;
         this.customerName = customerName;

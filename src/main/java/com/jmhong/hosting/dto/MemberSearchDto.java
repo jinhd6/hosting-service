@@ -15,9 +15,6 @@ public class MemberSearchDto {
     private String address;
     private MemberType type;
 
-    private MemberSearchDto() {
-    }
-
     public MemberSearchDto(String username, String email, String realName, String phoneNumber, String address, MemberType type) {
         this.username = username;
         this.email = email;

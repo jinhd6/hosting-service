@@ -11,9 +11,6 @@ public class OrderItemSearchDto {
     private String orderCustomerName;
     private String itemName;
 
-    private OrderItemSearchDto() {
-    }
-
     public OrderItemSearchDto(String orderItemName, String orderCustomerName, String itemName) {
         this.orderItemName = orderItemName;
         this.orderCustomerName = orderCustomerName;
