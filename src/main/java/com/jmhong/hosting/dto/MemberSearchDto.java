@@ -23,4 +23,7 @@ public class MemberSearchDto {
         this.address = address;
         this.type = type;
     }
+
+    public MemberSearchDto() {
+    }
 }

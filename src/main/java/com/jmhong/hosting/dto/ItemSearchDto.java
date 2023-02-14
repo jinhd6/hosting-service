@@ -15,4 +15,7 @@ public class ItemSearchDto {
         this.name = name;
         this.status = status;
     }
+
+    public ItemSearchDto() {
+    }
 }

@@ -16,4 +16,7 @@ public class OrderItemSearchDto {
         this.orderCustomerName = orderCustomerName;
         this.itemName = itemName;
     }
+
+    public OrderItemSearchDto() {
+    }
 }

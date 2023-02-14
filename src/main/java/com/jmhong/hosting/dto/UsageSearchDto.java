@@ -14,4 +14,7 @@ public class UsageSearchDto {
         this.memberUserName = memberUserName;
         this.orderItemName = orderItemName;
     }
+
+    public UsageSearchDto() {
+    }
 }

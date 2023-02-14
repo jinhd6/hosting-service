@@ -24,4 +24,7 @@ public class OrderSearchDto {
         this.type = type;
         this.status = status;
     }
+
+    public OrderSearchDto() {
+    }
 }
