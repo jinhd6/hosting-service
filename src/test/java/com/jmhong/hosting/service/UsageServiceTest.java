@@ -1,70 +1,66 @@
 package com.jmhong.hosting.service;
 
-import com.jmhong.hosting.domain.Member;
-import com.jmhong.hosting.domain.MemberType;
-import com.jmhong.hosting.domain.OrderItem;
-import com.jmhong.hosting.domain.Usage;
-import com.jmhong.hosting.dto.UsageSearchDto;
+import com.jmhong.hosting.domain.*;
+import com.jmhong.hosting.dto.*;
+import com.jmhong.hosting.repository.MemberRepository;
+import com.jmhong.hosting.repository.OrderItemRepository;
+import com.jmhong.hosting.repository.UsageRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Transactional
+@ExtendWith(MockitoExtension.class)
 class UsageServiceTest {
 
-    @Autowired
+    @Mock
+    private UsageRepository usageRepository;
+    @Mock
+    private MemberRepository memberRepository;
+    @Mock
+    private OrderItemRepository orderItemRepository;
+    @InjectMocks
     private UsageService usageService;
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private OrderItemService orderItemService;
 
     @Test
     void saveUsage() {
-        Usage usage1 = new Usage(null, null, null, null);
-        Usage usage2 = new Usage(null, null, null, null);
+        // Given
+        Member member = mock(Member.class);
+        OrderItem orderItem = mock(OrderItem.class);
+        LocalDateTime activateTime = LocalDateTime.of(2023, 1, 1, 0, 0);
+        LocalDateTime expireTime = LocalDateTime.of(2023, 1, 2, 0, 0);
+        UsageRequestDto usageRequestDto = new UsageRequestDto(1L, 2L, activateTime, expireTime);
+        when(memberRepository.findById(1L)).thenReturn(Optional.ofNullable(member));
+        when(orderItemRepository.findById(2L)).thenReturn(Optional.ofNullable(orderItem));
 
-        Long saveUsageId1 = usageService.saveUsage(usage1);
-        Long saveUsageId2 = usageService.saveUsage(usage2);
+        // When
+        Usage usage = usageService.saveUsage(usageRequestDto);
 
-        assertEquals(usage1.getId(), saveUsageId1);
-        assertEquals(usage2.getId(), saveUsageId2);
+        // Then
+        assertEquals(member, usage.getMember());
+        assertEquals(orderItem, usage.getOrderItem());
+        assertEquals(LocalDateTime.of(2023, 1, 1, 0, 0), usage.getConnectDate());
+        assertEquals(LocalDateTime.of(2023, 1, 2, 0, 0), usage.getDisconnectDate());
     }
 
     @Test
     void search() {
-        Member member1 = new Member("id1", "pw1", "email1", MemberType.MEMBER);
-        Member member2 = new Member("id2", "pw2", "email2", MemberType.ADMIN);
-        memberService.join(member1);
-        memberService.join(member2);
-        OrderItem orderItem1 = new OrderItem(null, null,
-                "orderItem1", null, null, 111111L, 1111L);
-        OrderItem orderItem2 = new OrderItem(null, null,
-                "orderItem2", null, null, 222222L, 2222L);
-        orderItemService.saveOrderItem(orderItem1);
-        orderItemService.saveOrderItem(orderItem2);
-        Usage usage1 = new Usage(member1, orderItem1, null, null);
-        Usage usage2 = new Usage(member2, orderItem2, null, null);
-        usageService.saveUsage(usage1);
-        usageService.saveUsage(usage2);
-        UsageSearchDto usageSearchDto1 = new UsageSearchDto("id1", "orderItem1");
-        UsageSearchDto usageSearchDto2 = new UsageSearchDto("id2", "orderItem2");
+        Usage usage1 = mock(Usage.class);
+        Usage usage2 = mock(Usage.class);
+        UsageSearchDto usageSearchDto = mock(UsageSearchDto.class);
+        when(usageRepository.search(usageSearchDto)).thenReturn(new ArrayList<>(Arrays.asList(usage1, usage2)));
 
-        List<Usage> findUsages1 = usageService.search(usageSearchDto1);
-        List<Usage> findUsages2 = usageService.search(usageSearchDto2);
+        List<Usage> usages = usageService.search(usageSearchDto);
 
-        assertEquals(1, findUsages1.size());
-        assertEquals(1, findUsages2.size());
-        assertEquals(usage1.getId(), findUsages1.get(0).getId());
-        assertEquals(usage2.getId(), findUsages2.get(0).getId());
+        assertEquals(2, usages.size());
+        assertTrue(usages.contains(usage1));
+        assertTrue(usages.contains(usage2));
     }
 }

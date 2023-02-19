@@ -1,7 +1,9 @@
 package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.*;
+import com.jmhong.hosting.dto.OrderRequestDto;
 import com.jmhong.hosting.dto.OrderSearchDto;
+import com.jmhong.hosting.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,54 +23,73 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class OrderServiceTest {
 
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private MemberService memberService;
+    @PersistenceContext EntityManager em;
+    @Autowired private OrderService orderService;
+    @Autowired private OrderRepository orderRepository;
 
     @Test
     void saveOrder() {
-        Order order1 = new Order(null, null,
-                "cn1", "cpn1", "ca1",
-                OrderType.NEW, OrderStatus.ORDER, null);
-        Order order2 = new Order(null, null,
-                "cn2", "cpn2", "ca2",
-                OrderType.EXTEND, OrderStatus.CANCEL, null);
+        // Given
+        Member member = createMember("id1", "pw1", "id1@email.com",
+                "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
+        Item item = createItem("item1", 11111L, 111L, ItemStatus.SALE);
+        OrderRequestDto orderRequestDto = new OrderRequestDto(member.getId(), item.getId(), 1L);
 
-        Long saveOrderId1 = orderService.saveOrder(order1);
-        Long saveOrderId2 = orderService.saveOrder(order2);
+        // When
+        Order order = orderService.saveOrder(orderRequestDto);
 
-        assertEquals(order1.getId(), saveOrderId1);
-        assertEquals(order2.getId(), saveOrderId2);
+        // Then
+        assertEquals(member, order.getMember());
+        assertEquals("이름1", order.getCustomerName());
+        assertEquals("010-0000-0001", order.getCustomerPhoneNumber());
+        assertEquals("주소1", order.getCustomerAddress());
+        assertEquals(OrderType.NEW, order.getType());
+        assertEquals(OrderStatus.ORDER, order.getStatus());
+        assertEquals(0L, order.getExtendPeriod());
     }
 
     @Test
     void search() {
-        Member member1 = new Member("id1", "pw1", "email1", MemberType.MEMBER);
-        Member member2 = new Member("id2", "pw2", "email2", MemberType.MEMBER);
-        memberService.join(member1);
-        memberService.join(member2);
-        Order order1 = new Order(member1, null,
-                "cn1", "cpn1", "ca1",
-                OrderType.NEW, OrderStatus.ORDER, null);
-        Order order2 = new Order(member2, null,
-                "cn2", "cpn2", "ca2",
-                OrderType.EXTEND, OrderStatus.CANCEL, null);
-        orderService.saveOrder(order1);
-        orderService.saveOrder(order2);
-        OrderSearchDto orderSearchDto1 = new OrderSearchDto(
-                "id1", "cn1", "cpn1", "ca1",
-                OrderType.NEW, OrderStatus.ORDER);
-        OrderSearchDto orderSearchDto2 = new OrderSearchDto(
-                "id2", "cn2", "cpn2", "ca2",
-                OrderType.EXTEND, OrderStatus.CANCEL);
+        // Given
+        Member member1 = createMember("id1", "pw1", "id1@email.com",
+                "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
+        Member member2 = createMember("id2", "pw2", "id2@email.com",
+                "이름2", "010-0000-0002", "주소2", MemberType.ADMIN);
+        Order order1 = createOrder(member1, LocalDateTime.now(),
+                "이름1", "010-0000-0001", "주소1",
+                OrderType.NEW, OrderStatus.ORDER, 0L);
+        Order order2 = createOrder(member2, LocalDateTime.now(),
+                "이름2", "010-0000-0002", "주소2",
+                OrderType.EXTEND, OrderStatus.CANCEL, 0L);
+        OrderSearchDto orderSearchDto = new OrderSearchDto("id", "이름",
+                "010-0000", "주소", null, null);
 
-        List<Order> findOrders1 = orderService.search(orderSearchDto1);
-        List<Order> findOrders2 = orderService.search(orderSearchDto2);
+        // When
+        List<Order> findOrders = orderService.search(orderSearchDto);
 
-        assertEquals(1, findOrders1.size());
-        assertEquals(1, findOrders2.size());
-        assertEquals(order1.getId(), findOrders1.get(0).getId());
-        assertEquals(order2.getId(), findOrders2.get(0).getId());
+        // Then
+        assertEquals(2, findOrders.size());
+    }
+
+    private Member createMember(String username, String password, String email, String realName, String phoneNumber,
+                                String address, MemberType type) {
+        Member member = new Member(username, password, email, type);
+        member.updateDeliveryInfo(realName, phoneNumber, address);
+        em.persist(member);
+        return member;
+    }
+
+    private Item createItem(String name, Long price, Long period, ItemStatus status) {
+        Item item = new Item(name, price, period, status);
+        em.persist(item);
+        return item;
+    }
+
+    private Order createOrder(Member member, LocalDateTime orderDate, String customerName, String customerPhoneNumber,
+                              String customerAddress, OrderType type, OrderStatus status, Long extendPeriod) {
+        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress,
+                type, status, extendPeriod);
+        em.persist(order);
+        return order;
     }
 }
