@@ -42,4 +42,9 @@ public class UsageService {
     public List<Usage> search(UsageSearchDto usageSearchDto) {
         return usageRepository.search(usageSearchDto);
     }
+
+    @Transactional(readOnly = true)
+    public List<Usage> findUsages() {
+        return usageRepository.findAll();
+    }
 }

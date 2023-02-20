@@ -34,4 +34,9 @@ public class OrderItemService {
     public List<OrderItem> search(OrderItemSearchDto orderItemSearchDto) {
         return orderItemRepository.search(orderItemSearchDto);
     }
+
+    @Transactional(readOnly = true)
+    public List<OrderItem> findOrderItems() {
+        return orderItemRepository.findAll();
+    }
 }

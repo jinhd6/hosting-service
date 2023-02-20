@@ -55,4 +55,9 @@ public class MemberService {
                 memberUpdateDto.getRealName(), memberUpdateDto.getPhoneNumber(), memberUpdateDto.getAddress());
         return member;
     }
+
+    @Transactional(readOnly = true)
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
 }

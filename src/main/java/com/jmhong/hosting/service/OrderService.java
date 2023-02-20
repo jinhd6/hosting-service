@@ -55,4 +55,9 @@ public class OrderService {
     public List<Order> search(OrderSearchDto orderSearchDto) {
         return orderRepository.search(orderSearchDto);
     }
+
+    @Transactional(readOnly = true)
+    public List<Order> findOrders() {
+        return orderRepository.findAll();
+    }
 }

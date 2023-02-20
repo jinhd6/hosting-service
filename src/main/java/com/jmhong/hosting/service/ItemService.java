@@ -37,4 +37,9 @@ public class ItemService {
         item.updateItemInfo(dto.getName(), dto.getPrice(), dto.getPeriod(), dto.getStatus());
         return item;
     }
+
+    @Transactional(readOnly = true)
+    public List<Item> findItems() {
+        return itemRepository.findAll();
+    }
 }
