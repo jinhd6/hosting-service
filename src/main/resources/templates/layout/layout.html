@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="/fragment/head :: head">
+    <meta charset="UTF-8">
+    <title>Server shop</title>
+</head>
+<body>
+<nav th:replace="/fragment/nav :: nav">
+</nav>
+<main layout:fragment="main">
+</main>
+<footer th:replace="/fragment/footer :: footer">
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

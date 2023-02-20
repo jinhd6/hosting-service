@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <title>Server shop</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<main layout:fragment="main">
+    <div class="card">
+        <h2 class="card-title">회원정보 수정</h2>
+        <form action="#" th:action="@{|/members/${memberId}/edit|}" th:object="${memberUpdateDto}" method="post">
+            <label th:for="password">비밀번호</label>
+            <input type="password" th:field="*{password}" />
+            <label th:for="realName">이름</label>
+            <input type="text" th:field="*{realName}" />
+            <label th:for="phoneNumber">전화번호</label>
+            <input type="text" th:field="*{phoneNumber}" />
+            <label th:for="address">주소</label>
+            <input type="text" th:field="*{address}" />
+            <label th:for="email">이메일</label>
+            <input type="text" th:field="*{email}" />
+            <input type="submit" value="확인" />
+        </form>
+    </div>
+</main>
+</body>
+</html>

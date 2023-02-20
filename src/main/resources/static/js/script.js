@@ -1,7 +1,7 @@
 "use strict";
 
 const main = function() {
-    let fpStart = flatpickr("#start-date", {
+    let fpStart = flatpickr("#connectDate", {
         enableTime: true,
         dateFormat: "Z",
         maxDate: "today",
@@ -9,7 +9,7 @@ const main = function() {
             fpEnd.set("minDate", dateStr);
         }
     });
-    let fpEnd = flatpickr("#end-date", {
+    let fpEnd = flatpickr("#disconnectDate", {
         enableTime: true,
         dateFormat: "Z",
         maxDate: "today",

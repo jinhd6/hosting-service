@@ -1,0 +1,31 @@
+package com.jmhong.hosting.controller;
+
+import com.jmhong.hosting.domain.OrderItem;
+import com.jmhong.hosting.dto.OrderItemSearchDto;
+import com.jmhong.hosting.service.OrderItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.List;
+
+@Controller
+public class OrderItemController {
+
+    private OrderItemService orderItemService;
+
+    @Autowired
+    public OrderItemController(OrderItemService orderItemService) {
+        this.orderItemService = orderItemService;
+    }
+
+    @GetMapping("/orderItems")
+    public String orderItemList(Model model, @ModelAttribute OrderItemSearchDto orderItemSearchDto) {
+        List<OrderItem> orderItems = orderItemService.search(orderItemSearchDto);
+        model.addAttribute("orderItemSearchDto", new OrderItemSearchDto());
+        model.addAttribute("orderItems", orderItems);
+        return "/orderItems/orderItemList";
+    }
+}

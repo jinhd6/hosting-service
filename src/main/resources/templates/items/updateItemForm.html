@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <title>Server shop</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<main layout:fragment="main">
+	<div class="card">
+		<h2 class="card-title">상품정보 변경</h2>
+		<form action="#" th:action="@{|/items/${itemId}/edit|}" th:object="${itemRequestDto}" method="post">
+			<label th:for="name">상품명</label>
+			<input type="text" th:field="*{name}" />
+			<label th:for="price">가격 (원)</label>
+			<input type="text" th:field="*{price}" />
+			<label th:for="period">사용기간 (일)</label>
+			<input type="text" th:field="*{period}" />
+			<label>상태</label>
+			<select th:field="*{status}">
+				<option th:each="itemStatus : ${itemStatuses}"
+                        th:text="${itemStatus.statusName}"
+                        th:value="${itemStatus}">판매상태1</option>
+			</select>
+			<input type="submit" value="조회" />
+		</form>
+	</div>
+</main>
+</body>
+</html>

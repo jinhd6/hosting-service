@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <title>Server shop</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<main layout:fragment="main">
+	<div class="card">
+		<h2 class="card-title">상품 주문</h2>
+		<form action="#" th:action="@{/orders/new}" th:object="${orderRequestDto}" method="post">
+			<label>회원</label>
+			<select th:field="*{memberId}">
+                <option th:each="member : ${members}"
+                        th:text="${member.username}"
+                        th:value="${member.id}">회원1</option>
+			</select>
+			<label>상품</label>
+			<select th:field="*{itemId}">
+                <option th:each="item : ${items}"
+                        th:text="${item.name}"
+                        th:value="${item.id}">상품1</option>
+			</select>
+			<label th:for="quantity">수량</label>
+			<input type="text" th:field="*{quantity}" />
+			<input type="submit" value="확인" />
+		</form>
+	</div>
+</main>
+</body>
+</html>

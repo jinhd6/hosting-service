@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}">
+<head>
+	<title>Server shop</title>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+<main layout:fragment="main">
+<div class="jumbotron">
+	<div class="jumbotron-content">
+		<div class="jumbotron-text">
+			<h1>맞춤형 서버 대여</h1>
+			<p>고객님에게 필요한 사양의 서버를 대여해 드립니다.</p>
+			<button th:onclick="|location.href='@{/members/new}'|">회원가입</button>
+		</div>
+		<div class="jumbotron-image">
+			<p>image</p>
+		</div>
+	</div>
+</div>
+<div class="album">
+	<div class="album-title">
+		<h2>서버 종류</h2>
+	</div>
+	<div class="album-body">
+		<div class="album-item">
+			<div class="album-item-image">
+				<p>image</p>
+			</div>
+			<div class="album-item-text">
+				<p>일반 서버</p>
+			</div>
+		</div>
+		<div class="album-item">
+			<div class="album-item-image">
+				<p>image</p>
+			</div>
+			<div class="album-item-text">
+				<p>고사양 서버</p>
+			</div>
+		</div>
+		<div class="album-item">
+			<div class="album-item-image">
+				<p>image</p>
+			</div>
+			<div class="album-item-text">
+				<p>백업 서버</p>
+			</div>
+		</div>
+		<div class="album-item">
+			<div class="album-item-image">
+				<p>image</p>
+			</div>
+			<div class="album-item-text">
+				<p>워크스테이션</p>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+</body>
+</html>

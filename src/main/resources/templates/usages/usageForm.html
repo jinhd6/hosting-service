@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <title>Server shop</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<main layout:fragment="main">
+	<div class="card">
+		<h2 class="card-title">서버 사용</h2>
+		<form action="#" th:action="@{/usages/new}" th:object="${usageRequestDto}" method="post">
+			<label>회원</label>
+			<select th:field="*{memberId}">
+                <option th:each="member : ${members}"
+                        th:value="${member.id}"
+                        th:text="${member.username}">회원1</option>
+			</select>
+			<label>주문상품</label>
+			<select th:field="*{orderItemId}">
+                <option th:each="orderItem : ${orderItems}"
+                        th:value="${orderItem.id}"
+                        th:text="${orderItem.name}">주문상품1</option>
+			</select>
+			<label th:for="connectDate">사용시작일자</label>
+			<input type="text" th:field="*{connectDate}" />
+			<label th:for="disconnectDate">사용종료일자</label>
+			<input type="text" th:field="*{disconnectDate}" />
+			<input type="submit" value="확인" />
+		</form>
+	</div>
+</main>
+</body>
+</html>

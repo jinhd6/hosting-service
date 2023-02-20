@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <title>Server shop</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<main layout:fragment="main">
+	<div class="card">
+		<h2 class="card-title">상품 조회</h2>
+		<form action="#" th:action="@{/items}" th:object="${itemSearchDto}">
+			<label th:for="name">상품명</label>
+			<input type="text" th:field="*{name}" />
+			<label>상태</label>
+			<select th:field="*{status}">
+                <option th:each="itemStatus : ${itemStatuses}"
+                        th:value="${itemStatus}"
+                        th:text="${itemStatus.statusName}">상태1</option>
+			</select>
+			<input type="submit" value="조회" />
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table>
+			<thead>
+			<tr>
+				<th>상품명</th>
+				<th>가격 (원)</th>
+				<th>사용기간 (일)</th>
+				<th>상태</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="item : ${items}">
+				<td th:text="${item.name}">상품1</td>
+				<td th:text="${item.price}">11111</td>
+				<td th:text="${item.period}">30</td>
+				<td th:text="${item.status.statusName}">판매중</td>
+				<td>
+					<button th:onclick="|location.href='@{|items/${item.id}/edit|}'|">
+						변경
+					</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</main>
+</body>
+</html>

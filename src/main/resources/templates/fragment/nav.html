@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Server shop</title>
+</head>
+<body>
+<nav th:fragment="nav">
+    <div class="logo">
+        <a th:href="@{/}">Server shop</a>
+    </div>
+    <div class="link">
+        <ul class="menu">
+            <li class="dropdown">
+                <div class="dropbtn">
+                    <a>회원</a>
+                </div>
+                <ul class="dropdown-content">
+                    <li><a th:href="@{/members/new}">회원가입</a></li>
+                    <li><a th:href="@{/members}">회원 조회</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <div class="dropbtn">
+                    <a>상품</a>
+                </div>
+                <ul class="dropdown-content">
+                    <li><a th:href="@{/items/new}">상품 등록</a></li>
+                    <li><a th:href="@{/items}">상품 조회</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <div class="dropbtn">
+                    <a>주문</a>
+                </div>
+                <ul class="dropdown-content">
+                    <li><a th:href="@{/orders/new}">상품 주문</a></li>
+                    <li><a th:href="@{/orders}">주문내역 조회</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <div class="dropbtn">
+                    <a>주문상품</a>
+                </div>
+                <ul class="dropdown-content">
+                    <li><a th:href="@{/orderItems}">주문상품 조회</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <div class="dropbtn">
+                    <a>사용</a>
+                </div>
+                <ul class="dropdown-content">
+                    <li><a th:href="@{/usages/new}">서버 사용</a></li>
+                    <li><a th:href="@{/usages}">사용내역 조회</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="member">
+            <li class="join">
+                <a th:href="@{/members/new}">회원가입</a>
+            </li>
+            <li class="login">
+                <a href="#">로그인</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>
