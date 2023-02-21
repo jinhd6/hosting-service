@@ -27,10 +27,10 @@ class MemberRepositoryTest {
 
     @Test
     void search() {
-        Member member1 = new Member("id1", "pw1", "a1@a.com", MemberType.MEMBER);
-        Member member2 = new Member("id2", "pw2", "a2@a.com", MemberType.ADMIN);
-        member1.updateDeliveryInfo("rn1", "pn1", "adr1");
-        member2.updateDeliveryInfo("rn2", "pn2", "adr2");
+        Member member1 = new Member("id1", "pw1", "a1@a.com",
+                "rn1", "pn1", "adr1", MemberType.MEMBER);
+        Member member2 = new Member("id2", "pw2", "a2@a.com",
+                "rn2", "pn2", "adr2", MemberType.ADMIN);
         memberRepository.save(member1);
         memberRepository.save(member2);
 

@@ -32,8 +32,8 @@ public class MemberService {
     }
 
     private static Member convertToMember(MemberCreateDto dto) {
-        Member member = new Member(dto.getUsername(), dto.getPassword(), dto.getEmail(), MemberType.MEMBER);
-        member.updateDeliveryInfo(dto.getRealName(), dto.getPhoneNumber(), dto.getAddress());
+        Member member = new Member(dto.getUsername(), dto.getPassword(), dto.getEmail(),
+                dto.getRealName(),dto.getPhoneNumber(), dto.getAddress(), MemberType.MEMBER);
         return member;
     }
 

@@ -73,8 +73,7 @@ public class OrderServiceTest {
 
     private Member createMember(String username, String password, String email, String realName, String phoneNumber,
                                 String address, MemberType type) {
-        Member member = new Member(username, password, email, type);
-        member.updateDeliveryInfo(realName, phoneNumber, address);
+        Member member = new Member(username, password, email, realName, phoneNumber, address, type);
         em.persist(member);
         return member;
     }

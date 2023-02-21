@@ -26,10 +26,14 @@ public class Member {
     protected Member() {
     }
 
-    public Member(String username, String password, String email, MemberType type) {
+    public Member(String username, String password, String email,
+                  String realName, String phoneNumber, String address, MemberType type) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.realName = realName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
         this.type = type;
     }
 
