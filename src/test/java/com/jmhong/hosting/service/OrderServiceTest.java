@@ -33,7 +33,7 @@ public class OrderServiceTest {
         Member member = createMember("id1", "pw1", "id1@email.com",
                 "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
         Item item = createItem("item1", 11111L, 111L, ItemStatus.SALE);
-        OrderRequestDto orderRequestDto = new OrderRequestDto(member.getId(), item.getId(), 1L);
+        OrderRequestDto orderRequestDto = new OrderRequestDto(member.getId(), item.getId(), 2L);
 
         // When
         Order order = orderService.saveOrder(orderRequestDto);
@@ -46,6 +46,7 @@ public class OrderServiceTest {
         assertEquals(OrderType.NEW, order.getType());
         assertEquals(OrderStatus.ORDER, order.getStatus());
         assertEquals(0L, order.getExtendPeriod());
+        assertEquals(2, order.getOrderItems().size());
     }
 
     @Test
@@ -69,6 +70,24 @@ public class OrderServiceTest {
 
         // Then
         assertEquals(2, findOrders.size());
+    }
+
+    @Test
+    void cancelOrder() {
+        // Given
+        Member member = createMember("id1", "pw1", "id1@email.com",
+                "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
+        Item item = createItem("item1", 11111L, 111L, ItemStatus.SALE);
+        OrderRequestDto orderRequestDto = new OrderRequestDto(member.getId(), item.getId(), 2L);
+        Order order = orderService.saveOrder(orderRequestDto);
+
+        // When
+        orderService.cancelOrder(order.getId());
+
+        // Then
+        assertEquals(OrderStatus.CANCEL, order.getStatus());
+        assertEquals(OrderItemStatus.CANCEL, order.getOrderItems().get(0).getStatus());
+        assertEquals(OrderItemStatus.CANCEL, order.getOrderItems().get(1).getStatus());
     }
 
     private Member createMember(String username, String password, String email, String realName, String phoneNumber,

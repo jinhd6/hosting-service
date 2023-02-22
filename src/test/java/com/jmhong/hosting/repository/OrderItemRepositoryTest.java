@@ -45,19 +45,19 @@ public class OrderItemRepositoryTest {
         itemRepository.save(item1);
         itemRepository.save(item2);
 
-        OrderItem orderItem1 = new OrderItem(order1, item1, "oi1", null, null, 111111L, 1111L);
-        OrderItem orderItem2 = new OrderItem(order2, item2, "oi2", null, null, 222222L, 2222L);
+        OrderItem orderItem1 = new OrderItem(order1, item1, "oi1", null, null, 111111L, 1111L, OrderItemStatus.ACTIVE);
+        OrderItem orderItem2 = new OrderItem(order2, item2, "oi2", null, null, 222222L, 2222L, OrderItemStatus.EXPIRE);
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
 
         em.flush();
         em.clear();
 
-        OrderItemSearchDto orderItemSearchDto1 = new OrderItemSearchDto("", "", "");
-        OrderItemSearchDto orderItemSearchDto2 = new OrderItemSearchDto("oi1", "cn1", "item1");
-        OrderItemSearchDto orderItemSearchDto3 = new OrderItemSearchDto("oi2", "cn2", "item2");
-        OrderItemSearchDto orderItemSearchDto4 = new OrderItemSearchDto("i", "n", "tem");
-        OrderItemSearchDto orderItemSearchDto5 = new OrderItemSearchDto("xx", "xx", "xx");
+        OrderItemSearchDto orderItemSearchDto1 = new OrderItemSearchDto("", "", "", null);
+        OrderItemSearchDto orderItemSearchDto2 = new OrderItemSearchDto("oi1", "cn1", "item1", OrderItemStatus.ACTIVE);
+        OrderItemSearchDto orderItemSearchDto3 = new OrderItemSearchDto("oi2", "cn2", "item2", OrderItemStatus.EXPIRE);
+        OrderItemSearchDto orderItemSearchDto4 = new OrderItemSearchDto("i", "n", "tem", null);
+        OrderItemSearchDto orderItemSearchDto5 = new OrderItemSearchDto("xx", "xx", "xx", null);
 
         List<OrderItem> findOrderItem1 = orderItemRepository.search(orderItemSearchDto1);
         List<OrderItem> findOrderItem2 = orderItemRepository.search(orderItemSearchDto2);

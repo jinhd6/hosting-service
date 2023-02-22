@@ -1,9 +1,6 @@
 package com.jmhong.hosting.repository;
 
-import com.jmhong.hosting.domain.Member;
-import com.jmhong.hosting.domain.MemberType;
-import com.jmhong.hosting.domain.OrderItem;
-import com.jmhong.hosting.domain.Usage;
+import com.jmhong.hosting.domain.*;
 import com.jmhong.hosting.dto.UsageSearchDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,19 +28,36 @@ class UsageRepositoryTest {
     @Autowired
     private UsageRepository usageRepository;
     @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
     private EntityManager em;
 
     @Test
     void search() {
+        String realName1 = "rn1";
+        String realName2 = "rn2";
+        String phoneNumber1 = "pn1";
+        String phoneNumber2 = "pn2";
+        String address1 = "adr1";
+        String address2 = "adr2";
         Member member1 = new Member("id1", "pw1", "a1@a.com",
-                "rn1", "pn1", "adr1", MemberType.MEMBER);
+                realName1, phoneNumber1, address1, MemberType.MEMBER);
         Member member2 = new Member("id2", "pw2", "a2@a.com",
-                "rn2", "pn2", "adr2", MemberType.ADMIN);
+                realName2, phoneNumber2, address2, MemberType.ADMIN);
         memberRepository.save(member1);
         memberRepository.save(member2);
 
-        OrderItem orderItem1 = new OrderItem(null, null, "oi1", null, null, 111111L, 1111L);
-        OrderItem orderItem2 = new OrderItem(null, null, "oi2", null, null, 222222L, 2222L);
+        Order order1 = new Order(member1, LocalDateTime.now(),
+                realName1, phoneNumber1, address1,OrderType.NEW, OrderStatus.ORDER, 0L);
+        Order order2 = new Order(member2, LocalDateTime.now(),
+                realName2, phoneNumber2, address2, OrderType.NEW, OrderStatus.ORDER, 0L);
+        orderRepository.save(order1);
+        orderRepository.save(order2);
+
+        OrderItem orderItem1 = new OrderItem(order1, null, "oi1",
+                null, null, 111111L, 1111L, OrderItemStatus.ACTIVE);
+        OrderItem orderItem2 = new OrderItem(order2, null, "oi2",
+                null, null, 222222L, 2222L, OrderItemStatus.EXPIRE);
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
 

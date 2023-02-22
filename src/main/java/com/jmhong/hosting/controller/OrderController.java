@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -53,5 +54,11 @@ public class OrderController {
         model.addAttribute("orderTypes", OrderType.values());
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "/orders/orderList";
+    }
+
+    @PostMapping("/orders/{orderId}/cancel")
+    public String cancelOrder(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
+        return "redirect:/orders";
     }
 }

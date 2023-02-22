@@ -19,6 +19,12 @@
             <input type="text" th:field="*{orderCustomerName}" />
             <label th:for="itemName">상품명</label>
             <input type="text" th:field="*{itemName}" />
+            <label>상태</label>
+            <select th:field="*{status}">
+                <option th:each="orderItemStatus : ${orderItemStatuses}"
+                        th:value="${orderItemStatus}"
+                        th:text="${orderItemStatus.statusName}">상태1</option>
+            </select>
 			<input type="submit" value="조회" />
 		</form>
 	</div>
@@ -33,6 +39,7 @@
                 <th>사용기간 (일)</th>
 				<th>대여시작일자</th>
 				<th>대여종료일자</th>
+                <th>상태</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -44,6 +51,7 @@
                 <td th:text="${orderItem.orderPeriod}">31</td>
 				<td th:text="${orderItem.activateDate}">2001년 1월 1일 1시 1분 1초</td>
 				<td th:text="${orderItem.expireDate}">2001년 2월 1일 1시 1분 1초</td>
+                <td th:text="${orderItem.status.statusName}">상태1</td>
 			</tr>
 			</tbody>
 		</table>

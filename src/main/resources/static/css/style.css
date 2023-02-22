@@ -35,7 +35,9 @@ button {
     padding: 5px 12px;
 }
 
-button.cancel {
+button.cancel, input[type=button].cancel, input[type=submit].cancel, input[type=reset].cancel {
+    margin: auto;
+    padding: 5px 12px;
     background-color: #e33;
 }
 

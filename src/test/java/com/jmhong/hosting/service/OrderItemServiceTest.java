@@ -59,6 +59,7 @@ class OrderItemServiceTest {
         assertEquals(expireDate, orderItem.getExpireDate());
         assertEquals(11111L, orderItem.getOrderPrice());
         assertEquals(111L, orderItem.getOrderPeriod());
+        assertEquals(OrderItemStatus.ACTIVE, orderItem.getStatus());
     }
 
     @Test
@@ -83,11 +84,11 @@ class OrderItemServiceTest {
         Order order2 = createOrder(member2, LocalDateTime.now(), "이름2", "010-0000-0002",
                 "주소2", OrderType.NEW, OrderStatus.ORDER, 0L);
         OrderItem orderItem1 = createOrderItem(order1, item1, "orderItem1", activateDate1, expireDate1,
-                price1, period1);
+                price1, period1, OrderItemStatus.ACTIVE);
         OrderItem orderItem2 = createOrderItem(order2, item2, "orderItem2", activateDate2, expireDate2,
-                price2, period2);
+                price2, period2, OrderItemStatus.EXPIRE);
         OrderItemSearchDto orderItemSearchDto = new OrderItemSearchDto(
-                "orderItem", "이름", "item");
+                "orderItem", "이름", "item", null);
 
         // When
         List<OrderItem> findOrderItems = orderItemService.search(orderItemSearchDto);
@@ -117,9 +118,11 @@ class OrderItemServiceTest {
         return item;
     }
 
-    private OrderItem createOrderItem(Order order, Item item, String name, LocalDateTime activateDate,
-                                      LocalDateTime expireDate, Long orderPrice, Long orderPeriod) {
-        OrderItem orderItem = new OrderItem(order, item, name, activateDate, expireDate, orderPrice, orderPeriod);
+    private OrderItem createOrderItem(Order order, Item item, String name,
+                                      LocalDateTime activateDate, LocalDateTime expireDate,
+                                      Long orderPrice, Long orderPeriod, OrderItemStatus status) {
+        OrderItem orderItem = new OrderItem(order, item, name,
+                activateDate, expireDate, orderPrice, orderPeriod, status);
         em.persist(orderItem);
         return orderItem;
     }

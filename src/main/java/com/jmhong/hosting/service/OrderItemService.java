@@ -3,6 +3,7 @@ package com.jmhong.hosting.service;
 import com.jmhong.hosting.domain.Item;
 import com.jmhong.hosting.domain.Order;
 import com.jmhong.hosting.domain.OrderItem;
+import com.jmhong.hosting.domain.OrderItemStatus;
 import com.jmhong.hosting.dto.OrderItemSearchDto;
 import com.jmhong.hosting.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class OrderItemService {
 
     public Long saveOrderItem(Order order, Item item, String name,
                               LocalDateTime activateDate, LocalDateTime expireDate, Long price, Long period) {
-        OrderItem orderItem = new OrderItem(order, item, name, activateDate, expireDate, price, period);
+        OrderItem orderItem = new OrderItem(order, item, name,
+                activateDate, expireDate, price, period, OrderItemStatus.ACTIVE);
         orderItemRepository.save(orderItem);
         return orderItem.getId();
     }

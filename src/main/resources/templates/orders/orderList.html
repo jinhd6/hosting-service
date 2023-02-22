@@ -62,9 +62,11 @@
 				<td th:text="${order.status.statusName}">주문중</td>
                 <td th:text="${order.extendPeriod}">111</td>
 				<td>
-					<button class="cancel" onclick="location.href='#'">
-						취소
-					</button>
+                    <form method="post"
+                          th:action="@{|/orders/${order.id}/cancel|}"
+                          th:if="${order.status.statusName} == 주문중">
+                        <input type="submit" class="cancel" value="취소" />
+                    </form>
 				</td>
 			</tr>
 			</tbody>

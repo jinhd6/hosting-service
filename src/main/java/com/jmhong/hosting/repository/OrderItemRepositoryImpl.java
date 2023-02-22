@@ -39,6 +39,10 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
         if (StringUtils.hasText(orderItemSearchDto.getItemName())) {
             query.setParameter("itemName", ("%" + orderItemSearchDto.getItemName() + "%"));
         }
+
+        if (orderItemSearchDto.getStatus() != null) {
+            query.setParameter("status", orderItemSearchDto.getStatus());
+        }
     }
 
     private static String buildJpql(OrderItemSearchDto orderItemSearchDto) {
@@ -54,6 +58,10 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
 
         if (StringUtils.hasText(orderItemSearchDto.getItemName())) {
             simpleJpqlBuilder.andWhere("i.name like :itemName");
+        }
+
+        if (orderItemSearchDto.getStatus() != null) {
+            simpleJpqlBuilder.andWhere("oi.status = :status");
         }
 
         return simpleJpqlBuilder.build();

@@ -1,6 +1,7 @@
 package com.jmhong.hosting.controller;
 
 import com.jmhong.hosting.domain.OrderItem;
+import com.jmhong.hosting.domain.OrderItemStatus;
 import com.jmhong.hosting.dto.OrderItemSearchDto;
 import com.jmhong.hosting.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class OrderItemController {
         List<OrderItem> orderItems = orderItemService.search(orderItemSearchDto);
         model.addAttribute("orderItemSearchDto", new OrderItemSearchDto());
         model.addAttribute("orderItems", orderItems);
+        model.addAttribute("orderItemStatuses", OrderItemStatus.values());
         return "/orderItems/orderItemList";
     }
 }

@@ -28,12 +28,15 @@ public class OrderItem {
     private Long orderPrice;
     private Long orderPeriod;
 
+    @Enumerated(EnumType.STRING)
+    private OrderItemStatus status;
+
     protected OrderItem() {
     }
 
     public OrderItem(Order order, Item item,
                      String name, LocalDateTime activateDate, LocalDateTime expireDate,
-                     Long orderPrice, Long orderPeriod) {
+                     Long orderPrice, Long orderPeriod, OrderItemStatus status) {
         this.order = order;
         this.item = item;
         this.name = name;
@@ -41,6 +44,8 @@ public class OrderItem {
         this.expireDate = expireDate;
         this.orderPrice = orderPrice;
         this.orderPeriod = orderPeriod;
+        this.status = status;
+        order.addOrderItem(this);
     }
 
     public void updateName(String name) {
@@ -49,5 +54,9 @@ public class OrderItem {
 
     public void updateExpireDate(LocalDateTime expireDate) {
         this.expireDate = expireDate;
+    }
+
+    public void cancelOrderItem() {
+        status = OrderItemStatus.CANCEL;
     }
 }

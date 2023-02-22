@@ -60,4 +60,12 @@ public class OrderService {
     public List<Order> findOrders() {
         return orderRepository.findAll();
     }
+
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.updateStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : order.getOrderItems()) {
+            orderItem.cancelOrderItem();
+        }
+    }
 }
