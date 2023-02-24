@@ -1,8 +1,6 @@
 package com.jmhong.hosting.service;
 
-import com.jmhong.hosting.domain.Member;
-import com.jmhong.hosting.domain.OrderItem;
-import com.jmhong.hosting.domain.Usage;
+import com.jmhong.hosting.domain.*;
 import com.jmhong.hosting.dto.UsageRequestDto;
 import com.jmhong.hosting.dto.UsageSearchDto;
 import com.jmhong.hosting.repository.MemberRepository;
@@ -33,9 +31,16 @@ public class UsageService {
     public Usage saveUsage(UsageRequestDto dto) {
         Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
         OrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElseThrow();
+        completeOrder(orderItem.getOrder());
         Usage usage = new Usage(member, orderItem, dto.getConnectDate(), dto.getDisconnectDate());
         usageRepository.save(usage);
         return usage;
+    }
+
+    private static void completeOrder(Order order) {
+        if (order.getStatus() == OrderStatus.ORDER) {
+            order.updateStatus(OrderStatus.COMPLETE);
+        }
     }
 
     @Transactional(readOnly = true)
