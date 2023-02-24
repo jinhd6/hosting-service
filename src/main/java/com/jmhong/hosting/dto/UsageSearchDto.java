@@ -7,11 +7,11 @@ import lombok.Setter;
 @Setter
 public class UsageSearchDto {
 
-    private String memberUserName;
+    private String memberUsername;
     private String orderItemName;
 
-    public UsageSearchDto(String memberUserName, String orderItemName) {
-        this.memberUserName = memberUserName;
+    public UsageSearchDto(String memberUsername, String orderItemName) {
+        this.memberUsername = memberUsername;
         this.orderItemName = orderItemName;
     }
 

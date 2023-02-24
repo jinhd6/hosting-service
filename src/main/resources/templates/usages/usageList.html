@@ -14,7 +14,7 @@
 		<h2 class="card-title">사용내역 조회</h2>
 		<form action="#" th:action="@{/usages}" th:object="${usageSearchDto}">
 			<label th:for="memberUsername">아이디</label>
-            <input type="text" th:field="*{memberUserName}" />
+            <input type="text" th:field="*{memberUsername}" />
 			<label th:for="orderItemName">주문상품명</label>
             <input type="text" th:field="*{orderItemName}" />
 			<input type="submit" value="조회" />

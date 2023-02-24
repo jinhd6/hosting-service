@@ -28,8 +28,8 @@ public class UsageRepositoryImpl implements UsageRepositoryCustom {
     }
 
     private static void setQueryParams(UsageSearchDto usageSearchDto, TypedQuery<Usage> query) {
-        if (StringUtils.hasText(usageSearchDto.getMemberUserName())) {
-            query.setParameter("memberUserName", ("%" + usageSearchDto.getMemberUserName() + "%"));
+        if (StringUtils.hasText(usageSearchDto.getMemberUsername())) {
+            query.setParameter("memberUsername", ("%" + usageSearchDto.getMemberUsername() + "%"));
         }
 
         if (StringUtils.hasText(usageSearchDto.getOrderItemName())) {
@@ -40,8 +40,8 @@ public class UsageRepositoryImpl implements UsageRepositoryCustom {
     private static String buildJpql(UsageSearchDto usageSearchDto) {
         SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select u from Usage u join u.member m join u.orderItem oi");
 
-        if (StringUtils.hasText(usageSearchDto.getMemberUserName())) {
-            simpleJpqlBuilder.andWhere("m.username like :memberUserName");
+        if (StringUtils.hasText(usageSearchDto.getMemberUsername())) {
+            simpleJpqlBuilder.andWhere("m.username like :memberUsername");
         }
 
         if (StringUtils.hasText(usageSearchDto.getOrderItemName())) {
