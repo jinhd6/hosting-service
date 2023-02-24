@@ -63,7 +63,7 @@ nav a {
 }
 
 nav .logo {
-    flex: 0 0 auto;
+    flex: auto;
 
     margin: 8px 0;
 
@@ -150,27 +150,6 @@ nav .dropdown:hover li:hover {
     background-color: #ddd;
 }
 
-nav .member {
-    flex: 0 1 auto;
-
-    display: flex;
-    flex-wrap: wrap;
-}
-
-nav .member li {
-    flex: 0 0 auto;
-
-    margin: auto;
-
-    display: flex;
-}
-
-nav .member li a {
-    margin: 0 4px;
-
-    font-size: 13px;
-}
-
 @media screen and (any-pointer:coarse) {
     nav .menu > li {
         min-height: 50px;
@@ -190,17 +169,6 @@ nav .member li a {
     nav .dropdown .dropdown-content li a {
         margin: 12px 20px;
         padding: 0;
-    }
-}
-
-@media (max-width: 375px) {
-    nav {
-        padding: 0;
-    }
-
-    nav .member a {
-        padding: 0;
-        margin: 0 4px;
     }
 }
 
