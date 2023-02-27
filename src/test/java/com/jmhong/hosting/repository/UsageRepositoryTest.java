@@ -48,9 +48,9 @@ class UsageRepositoryTest {
         memberRepository.save(member2);
 
         Order order1 = new Order(member1, LocalDateTime.now(),
-                realName1, phoneNumber1, address1,OrderType.NEW, OrderStatus.ORDER, 0L);
+                realName1, phoneNumber1, address1,OrderType.NEW, OrderStatus.ORDER);
         Order order2 = new Order(member2, LocalDateTime.now(),
-                realName2, phoneNumber2, address2, OrderType.NEW, OrderStatus.ORDER, 0L);
+                realName2, phoneNumber2, address2, OrderType.NEW, OrderStatus.ORDER);
         orderRepository.save(order1);
         orderRepository.save(order2);
 

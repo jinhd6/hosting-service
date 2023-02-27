@@ -35,7 +35,7 @@ public class OrderService {
         Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
         Item item = itemRepository.findById(dto.getItemId()).orElseThrow();
         Order order = new Order(member, LocalDateTime.now(), member.getRealName(), member.getPhoneNumber(),
-                member.getAddress(), OrderType.NEW, OrderStatus.ORDER, 0L);
+                member.getAddress(), OrderType.NEW, OrderStatus.ORDER);
         orderRepository.save(order);
 
         for (int orderItemSuffix = 1; orderItemSuffix <= dto.getQuantity(); orderItemSuffix++) {

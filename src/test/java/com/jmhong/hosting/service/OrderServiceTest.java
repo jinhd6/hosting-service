@@ -45,7 +45,6 @@ public class OrderServiceTest {
         assertEquals("주소1", order.getCustomerAddress());
         assertEquals(OrderType.NEW, order.getType());
         assertEquals(OrderStatus.ORDER, order.getStatus());
-        assertEquals(0L, order.getExtendPeriod());
         assertEquals(2, order.getOrderItems().size());
     }
 
@@ -58,10 +57,10 @@ public class OrderServiceTest {
                 "이름2", "010-0000-0002", "주소2", MemberType.ADMIN);
         Order order1 = createOrder(member1, LocalDateTime.now(),
                 "이름1", "010-0000-0001", "주소1",
-                OrderType.NEW, OrderStatus.ORDER, 0L);
+                OrderType.NEW, OrderStatus.ORDER);
         Order order2 = createOrder(member2, LocalDateTime.now(),
                 "이름2", "010-0000-0002", "주소2",
-                OrderType.EXTEND, OrderStatus.CANCEL, 0L);
+                OrderType.EXTEND, OrderStatus.CANCEL);
         OrderSearchDto orderSearchDto = new OrderSearchDto("id", "이름",
                 "010-0000", "주소", null, null);
 
@@ -104,9 +103,8 @@ public class OrderServiceTest {
     }
 
     private Order createOrder(Member member, LocalDateTime orderDate, String customerName, String customerPhoneNumber,
-                              String customerAddress, OrderType type, OrderStatus status, Long extendPeriod) {
-        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress,
-                type, status, extendPeriod);
+                              String customerAddress, OrderType type, OrderStatus status) {
+        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress, type, status);
         em.persist(order);
         return order;
     }

@@ -46,7 +46,7 @@ class OrderItemServiceTest {
                 "010-0000-0001", "주소1", MemberType.MEMBER);
         Item item = createItem("item1", price, period, ItemStatus.SALE);
         Order order = createOrder(member, LocalDateTime.now(), "이름1", "010-0000-0001",
-                "주소1", OrderType.NEW, OrderStatus.ORDER, 0L);
+                "주소1", OrderType.NEW, OrderStatus.ORDER);
 
         Long orderItemId = orderItemService.saveOrderItem(order, item, "orderItem1",
                 activateDate, expireDate, price, period);
@@ -80,9 +80,9 @@ class OrderItemServiceTest {
         Item item1 = createItem("item1", price1, period1, ItemStatus.SALE);
         Item item2 = createItem("item2", price2, period2, ItemStatus.SUSPEND);
         Order order1 = createOrder(member1, LocalDateTime.now(), "이름1", "010-0000-0001",
-                "주소1", OrderType.NEW, OrderStatus.ORDER, 0L);
+                "주소1", OrderType.NEW, OrderStatus.ORDER);
         Order order2 = createOrder(member2, LocalDateTime.now(), "이름2", "010-0000-0002",
-                "주소2", OrderType.NEW, OrderStatus.ORDER, 0L);
+                "주소2", OrderType.NEW, OrderStatus.ORDER);
         OrderItem orderItem1 = createOrderItem(order1, item1, "orderItem1", activateDate1, expireDate1,
                 price1, period1, OrderItemStatus.ACTIVE);
         OrderItem orderItem2 = createOrderItem(order2, item2, "orderItem2", activateDate2, expireDate2,
@@ -105,9 +105,8 @@ class OrderItemServiceTest {
     }
 
     private Order createOrder(Member member, LocalDateTime orderDate, String customerName, String customerPhoneNumber,
-                              String customerAddress, OrderType type, OrderStatus status, Long extendPeriod) {
-        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress,
-                type, status, extendPeriod);
+                              String customerAddress, OrderType type, OrderStatus status) {
+        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress, type, status);
         em.persist(order);
         return order;
     }

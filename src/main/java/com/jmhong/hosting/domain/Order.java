@@ -32,8 +32,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Long extendPeriod;
-
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -42,7 +40,7 @@ public class Order {
 
     public Order(Member member, LocalDateTime orderDate,
                  String customerName, String customerPhoneNumber, String customerAddress,
-                 OrderType type, OrderStatus status, Long extendPeriod) {
+                 OrderType type, OrderStatus status) {
         this.member = member;
         this.orderDate = orderDate;
         this.customerName = customerName;
@@ -50,7 +48,6 @@ public class Order {
         this.customerAddress = customerAddress;
         this.type = type;
         this.status = status;
-        this.extendPeriod = extendPeriod;
         member.addOrder(this);
     }
 

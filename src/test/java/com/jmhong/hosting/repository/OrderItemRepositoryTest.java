@@ -33,10 +33,10 @@ public class OrderItemRepositoryTest {
     void search() {
         Order order1 = new Order(null, null,
                 "cn1", "cpn1", "ca1",
-                OrderType.NEW, OrderStatus.ORDER, null);
+                OrderType.NEW, OrderStatus.ORDER);
         Order order2 = new Order(null, null,
                 "cn2", "cpn2", "ca2",
-                OrderType.EXTEND, OrderStatus.CANCEL, null);
+                OrderType.EXTEND, OrderStatus.CANCEL);
         orderRepository.save(order1);
         orderRepository.save(order2);
 
