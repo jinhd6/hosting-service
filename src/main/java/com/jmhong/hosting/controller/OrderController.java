@@ -33,7 +33,7 @@ public class OrderController {
     @GetMapping("/orders/new")
     public String orderForm(Model model) {
         List<Member> members = memberService.findMembers();
-        List<Item> items = itemService.findItems();
+        List<Item> items = itemService.findItemsOnSale();
         model.addAttribute("orderRequestDto", new OrderRequestDto());
         model.addAttribute("members", members);
         model.addAttribute("items", items);

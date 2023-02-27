@@ -1,6 +1,7 @@
 package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.Item;
+import com.jmhong.hosting.domain.ItemStatus;
 import com.jmhong.hosting.dto.ItemRequestDto;
 import com.jmhong.hosting.dto.ItemSearchDto;
 import com.jmhong.hosting.repository.ItemRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,5 +43,13 @@ public class ItemService {
     @Transactional(readOnly = true)
     public List<Item> findItems() {
         return itemRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Item> findItemsOnSale() {
+        List<Item> activeItems = itemRepository.findAll().stream()
+                .filter(i -> i.getStatus() == ItemStatus.SALE)
+                .collect(Collectors.toList());
+        return activeItems;
     }
 }
