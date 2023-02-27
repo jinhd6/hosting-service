@@ -16,7 +16,9 @@ const main = function() {
             } else {
                 fpStart.set("minTime", "00:00");
             }
-        }
+        },
+        altInput: true,
+        altFormat: "Y년 n월 j일 K h:i:S"
     });
     let fpEnd = flatpickr("#disconnectDate", {
         enableTime: true,
@@ -26,7 +28,9 @@ const main = function() {
         defaultMinute: new Date().getMinutes(),
         onChange: function(selectedDates, dateStr, instance) {
             fpStart.set("maxDate", dateStr);
-        }
+        },
+        altInput: true,
+        altFormat: "Y년 n월 j일 K h:i:S"
     });
 }
 

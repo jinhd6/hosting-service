@@ -52,7 +52,7 @@
 			</thead>
 			<tbody>
 			<tr th:each="order : ${orders}">
-				<td th:text="${order.orderDate}">2001-01-01</td>
+				<td th:text="${#temporals.format(order.orderDate)}">2001-01-01</td>
 				<td th:text="${order.member.username}">회원1</td>
 				<td th:text="${order.customerName}">주문자1</td>
 				<td th:text="${order.customerPhoneNumber}">010-1111-1111</td>

@@ -49,8 +49,8 @@
 				<td th:text="${orderItem.name}">주문상품1</td>
 				<td th:text="${orderItem.orderPrice}">11111</td>
                 <td th:text="${orderItem.orderPeriod}">31</td>
-				<td th:text="${orderItem.activateDate}">2001년 1월 1일 1시 1분 1초</td>
-				<td th:text="${orderItem.expireDate}">2001년 2월 1일 1시 1분 1초</td>
+				<td th:text="${#temporals.format(orderItem.activateDate)}">2001년 1월 1일 1시 1분 1초</td>
+				<td th:text="${#temporals.format(orderItem.expireDate)}">2001년 2월 1일 1시 1분 1초</td>
                 <td th:text="${orderItem.status.statusName}">상태1</td>
 			</tr>
 			</tbody>
