@@ -38,7 +38,12 @@ public class UsageRepositoryImpl implements UsageRepositoryCustom {
     }
 
     private static String buildJpql(UsageSearchDto usageSearchDto) {
-        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select u from Usage u join u.member m join u.orderItem oi");
+        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder(
+                "select u from Usage u"
+                + " join u.orderItem oi"
+                + " join oi.order o"
+                + " join o.member m"
+        );
 
         if (StringUtils.hasText(usageSearchDto.getMemberUsername())) {
             simpleJpqlBuilder.andWhere("m.username like :memberUsername");

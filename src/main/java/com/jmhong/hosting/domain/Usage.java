@@ -15,10 +15,6 @@ public class Usage {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_item_id")
     private OrderItem orderItem;
 
@@ -28,8 +24,7 @@ public class Usage {
     protected Usage() {
     }
 
-    public Usage(Member member, OrderItem orderItem, LocalDateTime connectDate, LocalDateTime disconnectDate) {
-        this.member = member;
+    public Usage(OrderItem orderItem, LocalDateTime connectDate, LocalDateTime disconnectDate) {
         this.orderItem = orderItem;
         this.connectDate = connectDate;
         this.disconnectDate = disconnectDate;

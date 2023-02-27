@@ -61,8 +61,8 @@ class UsageRepositoryTest {
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
 
-        Usage usage1 = new Usage(member1, orderItem1, null, null);
-        Usage usage2 = new Usage(member2, orderItem2, null, null);
+        Usage usage1 = new Usage(orderItem1, null, null);
+        Usage usage2 = new Usage(orderItem2, null, null);
         usageRepository.save(usage1);
         usageRepository.save(usage2);
 
@@ -89,8 +89,6 @@ class UsageRepositoryTest {
 
         assertEquals(usage1.getId(), findUsage2.get(0).getId());
         assertEquals(usage2.getId(), findUsage3.get(0).getId());
-        assertEquals(member1.getId(), findUsage2.get(0).getMember().getId());
-        assertEquals(member2.getId(), findUsage3.get(0).getMember().getId());
         assertEquals(orderItem1.getId(), findUsage2.get(0).getOrderItem().getId());
         assertEquals(orderItem2.getId(), findUsage3.get(0).getOrderItem().getId());
     }

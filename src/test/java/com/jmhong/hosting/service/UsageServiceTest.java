@@ -2,7 +2,6 @@ package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.*;
 import com.jmhong.hosting.dto.*;
-import com.jmhong.hosting.repository.MemberRepository;
 import com.jmhong.hosting.repository.OrderItemRepository;
 import com.jmhong.hosting.repository.UsageRepository;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,6 @@ class UsageServiceTest {
     @Mock
     private UsageRepository usageRepository;
     @Mock
-    private MemberRepository memberRepository;
-    @Mock
     private OrderItemRepository orderItemRepository;
     @InjectMocks
     private UsageService usageService;
@@ -32,21 +29,18 @@ class UsageServiceTest {
     @Test
     void saveUsage() {
         // Given
-        Member member = mock(Member.class);
         OrderItem orderItem = mock(OrderItem.class);
         Order order = mock(Order.class);
         when(orderItem.getOrder()).thenReturn(order);
         LocalDateTime activateTime = LocalDateTime.of(2023, 1, 1, 0, 0);
         LocalDateTime expireTime = LocalDateTime.of(2023, 1, 2, 0, 0);
         UsageRequestDto usageRequestDto = new UsageRequestDto(1L, 2L, activateTime, expireTime);
-        when(memberRepository.findById(1L)).thenReturn(Optional.ofNullable(member));
         when(orderItemRepository.findById(2L)).thenReturn(Optional.of(orderItem));
 
         // When
         Usage usage = usageService.saveUsage(usageRequestDto);
 
         // Then
-        assertEquals(member, usage.getMember());
         assertEquals(orderItem, usage.getOrderItem());
         assertEquals(LocalDateTime.of(2023, 1, 1, 0, 0), usage.getConnectDate());
         assertEquals(LocalDateTime.of(2023, 1, 2, 0, 0), usage.getDisconnectDate());

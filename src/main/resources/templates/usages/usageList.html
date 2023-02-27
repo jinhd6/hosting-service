@@ -32,7 +32,7 @@
 			</thead>
 			<tbody>
 			<tr th:each="usage : ${usages}">
-				<td th:text="${usage.member.username}">id1</td>
+				<td th:text="${usage.orderItem.order.member.username}">id1</td>
 				<td th:text="${usage.orderItem.name}">주문상품1</td>
 				<td th:text="${#temporals.format(usage.connectDate)}">2001년 1월 1일 1시 1분 1초</td>
 				<td th:text="${#temporals.format(usage.disconnectDate)}">2001년 2월 1일 1시 1분 1초</td>
