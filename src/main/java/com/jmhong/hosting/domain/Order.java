@@ -51,6 +51,7 @@ public class Order {
         this.type = type;
         this.status = status;
         this.extendPeriod = extendPeriod;
+        member.addOrder(this);
     }
 
     public void updateStatus(OrderStatus status) {

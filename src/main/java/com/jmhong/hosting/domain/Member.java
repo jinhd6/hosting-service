@@ -3,6 +3,8 @@ package com.jmhong.hosting.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,9 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberType type;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
     protected Member() {
     }
@@ -46,5 +51,9 @@ public class Member {
         this.realName = realName;
         this.phoneNumber = phoneNumber;
         this.address = address;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 }

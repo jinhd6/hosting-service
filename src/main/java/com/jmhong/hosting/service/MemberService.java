@@ -60,4 +60,10 @@ public class MemberService {
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public MemberResponseDto searchById(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        return new MemberResponseDto(member);
+    }
 }

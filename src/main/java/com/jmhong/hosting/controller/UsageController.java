@@ -1,8 +1,10 @@
 package com.jmhong.hosting.controller;
 
-import com.jmhong.hosting.domain.Member;
+import com.jmhong.hosting.domain.MemberType;
 import com.jmhong.hosting.domain.OrderItem;
 import com.jmhong.hosting.domain.Usage;
+import com.jmhong.hosting.dto.MemberResponseDto;
+import com.jmhong.hosting.dto.MemberSearchDto;
 import com.jmhong.hosting.dto.UsageRequestDto;
 import com.jmhong.hosting.dto.UsageSearchDto;
 import com.jmhong.hosting.service.MemberService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -32,16 +35,26 @@ public class UsageController {
     }
 
     @GetMapping("/usages/new")
-    public String usageForm(Model model) {
-        List<Member> members = memberService.findMembers();
-        List<OrderItem> orderItems = orderItemService.findOrderItems();
+    public String usageMemberList(Model model, @ModelAttribute MemberSearchDto memberSearchDto) {
+        List<MemberResponseDto> searchResults = memberService.searchMember(memberSearchDto);
+        model.addAttribute("memberSearchDto", new MemberSearchDto());
+        model.addAttribute("results", searchResults);
+        model.addAttribute("memberTypes", MemberType.values());
+        return "/usages/usageMemberList";
+    }
+
+    @GetMapping("/usages/{memberId}/new")
+    public String usageForm(Model model, @PathVariable Long memberId) {
+        List<OrderItem> orderItems = orderItemService.findActiveOrderItems(memberId);
+        String username = memberService.searchById(memberId).getUsername();
+
         model.addAttribute("usageRequestDto", new UsageRequestDto());
-        model.addAttribute("members", members);
         model.addAttribute("orderItems", orderItems);
+        model.addAttribute("username", username);
         return "/usages/usageForm";
     }
 
-    @PostMapping("/usages/new")
+    @PostMapping("/usages/{memberId}/new")
     public String usage(@ModelAttribute UsageRequestDto usageRequestDto) {
         usageService.saveUsage(usageRequestDto);
         return "redirect:/";

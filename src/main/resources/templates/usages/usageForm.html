@@ -12,12 +12,11 @@
 <main layout:fragment="main">
 	<div class="card">
 		<h2 class="card-title">서버 사용</h2>
-		<form action="#" th:action="@{/usages/new}" th:object="${usageRequestDto}" method="post">
+		<form action="#" th:action="@{|/usages/${memberId}/new|}" th:object="${usageRequestDto}" method="post">
 			<label>회원</label>
 			<select th:field="*{memberId}">
-                <option th:each="member : ${members}"
-                        th:value="${member.id}"
-                        th:text="${member.username}">회원1</option>
+                <option th:value="${memberId}"
+                        th:text="${username}">회원1</option>
 			</select>
 			<label>주문상품</label>
 			<select th:field="*{orderItemId}">
