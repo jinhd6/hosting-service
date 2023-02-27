@@ -27,15 +27,29 @@ public class OrderItemRepositoryTest {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
     private EntityManager em;
 
     @Test
     void search() {
-        Order order1 = new Order(null, null,
-                "cn1", "cpn1", "ca1",
+        String realName1 = "cn1";
+        String phoneNumber1 = "cpn1";
+        String address1 = "ca1";
+        String realName2 = "cn2";
+        String phoneNumber2 = "cpn2";
+        String address2 = "ca2";
+
+        Member member1 = new Member("id1", "pw1", "a1@a.com",
+                realName1, phoneNumber1, address1, MemberType.MEMBER);
+        Member member2 = new Member("id2", "pw2", "a2@a.com",
+                realName2, phoneNumber2, address2, MemberType.ADMIN);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        Order order1 = new Order(member1, null, realName1, phoneNumber1, address1,
                 OrderType.NEW, OrderStatus.ORDER);
-        Order order2 = new Order(null, null,
-                "cn2", "cpn2", "ca2",
+        Order order2 = new Order(member2, null, realName2, phoneNumber2, address2,
                 OrderType.EXTEND, OrderStatus.CANCEL);
         orderRepository.save(order1);
         orderRepository.save(order2);

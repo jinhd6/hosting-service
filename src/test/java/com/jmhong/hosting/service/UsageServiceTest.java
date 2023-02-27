@@ -34,11 +34,13 @@ class UsageServiceTest {
         // Given
         Member member = mock(Member.class);
         OrderItem orderItem = mock(OrderItem.class);
+        Order order = mock(Order.class);
+        when(orderItem.getOrder()).thenReturn(order);
         LocalDateTime activateTime = LocalDateTime.of(2023, 1, 1, 0, 0);
         LocalDateTime expireTime = LocalDateTime.of(2023, 1, 2, 0, 0);
         UsageRequestDto usageRequestDto = new UsageRequestDto(1L, 2L, activateTime, expireTime);
         when(memberRepository.findById(1L)).thenReturn(Optional.ofNullable(member));
-        when(orderItemRepository.findById(2L)).thenReturn(Optional.ofNullable(orderItem));
+        when(orderItemRepository.findById(2L)).thenReturn(Optional.of(orderItem));
 
         // When
         Usage usage = usageService.saveUsage(usageRequestDto);
