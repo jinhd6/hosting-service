@@ -11,13 +11,13 @@
 <body>
 <main layout:fragment="main">
 	<div class="card">
-		<h2 class="card-title">주문상품 조회</h2>
+		<h2 class="card-title">대여서버 관리</h2>
 		<form action="#" th:action="@{/orderItems}" th:object="${orderItemSearchDto}">
-			<label th:for="orderItemName">주문상품명</label>
+			<label th:for="orderItemName">주문상품명 (대여 서버)</label>
 			<input type="text" th:field="*{orderItemName}" />
             <label th:for="orderCustomerName">주문자명</label>
             <input type="text" th:field="*{orderCustomerName}" />
-            <label th:for="itemName">상품명</label>
+            <label th:for="itemName">상품명 (판매 서버)</label>
             <input type="text" th:field="*{itemName}" />
             <label>상태</label>
             <select th:field="*{status}">
@@ -33,25 +33,27 @@
 			<thead>
 			<tr>
 				<th>주문자명</th>
-				<th>상품명</th>
-				<th>주문상품명</th>
-				<th>주문가격 (원)</th>
-                <th>사용기간 (일)</th>
-				<th>대여시작일자</th>
-				<th>대여종료일자</th>
+				<th>주문상품명 (대여 서버)</th>
+                <th>대여기간 (일)</th>
+				<th>대여시작시간</th>
+				<th>대여만료시간</th>
                 <th>상태</th>
+                <th></th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr th:each="orderItem : ${orderItems}">
 				<td th:text="${orderItem.order.customerName}">이름1</td>
-				<td th:text="${orderItem.item.name}">상품1</td>
 				<td th:text="${orderItem.name}">주문상품1</td>
-				<td th:text="${orderItem.orderPrice}">11111</td>
                 <td th:text="${orderItem.orderPeriod}">31</td>
 				<td th:text="${#temporals.format(orderItem.activateDate)}">2001년 1월 1일 1시 1분 1초</td>
 				<td th:text="${#temporals.format(orderItem.expireDate)}">2001년 2월 1일 1시 1분 1초</td>
                 <td th:text="${orderItem.status.statusName}">상태1</td>
+                <td>
+                    <button th:onclick="|location.href='@{|/usages/${orderItem.id}/new|}'|">
+                        사용
+                    </button>
+                </td>
 			</tr>
 			</tbody>
 		</table>

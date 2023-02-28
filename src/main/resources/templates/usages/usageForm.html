@@ -12,21 +12,20 @@
 <main layout:fragment="main">
 	<div class="card">
 		<h2 class="card-title">서버 사용</h2>
-		<form action="#" th:action="@{|/usages/${memberId}/new|}" th:object="${usageRequestDto}" method="post">
+		<form action="#" th:action="@{|/usages/${orderItemId}/new|}" th:object="${usageRequestDto}" method="post">
 			<label>회원</label>
 			<select th:field="*{memberId}">
-                <option th:value="${memberId}"
-                        th:text="${username}">회원1</option>
+                <option th:value="${memberResponseDto.id}"
+                        th:text="${memberResponseDto.username}">회원1</option>
 			</select>
-			<label>주문상품</label>
+			<label>주문상품명 (대여 서버)</label>
 			<select th:field="*{orderItemId}">
-                <option th:each="orderItem : ${orderItems}"
-                        th:value="${orderItem.id}"
+                <option th:value="${orderItem.id}"
                         th:text="${orderItem.name}">주문상품1</option>
 			</select>
-			<label th:for="connectDate">사용시작일자</label>
+			<label th:for="connectDate">사용시작시간</label>
 			<input type="text" th:field="*{connectDate}" />
-			<label th:for="disconnectDate">사용종료일자</label>
+			<label th:for="disconnectDate">사용종료시간</label>
 			<input type="text" th:field="*{disconnectDate}" />
 			<input type="submit" value="확인" />
 		</form>

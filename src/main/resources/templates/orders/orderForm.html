@@ -11,7 +11,7 @@
 <body>
 <main layout:fragment="main">
 	<div class="card">
-		<h2 class="card-title">상품 주문</h2>
+		<h2 class="card-title">서버대여 신청</h2>
 		<form action="#" th:action="@{/orders/new}" th:object="${orderRequestDto}" method="post">
 			<label>회원</label>
 			<select th:field="*{memberId}">
@@ -19,7 +19,7 @@
                         th:text="${member.username}"
                         th:value="${member.id}">회원1</option>
 			</select>
-			<label>상품</label>
+			<label>상품 (대여할 서버)</label>
 			<select th:field="*{itemId}">
                 <option th:each="item : ${items}"
                         th:text="${item.name}"

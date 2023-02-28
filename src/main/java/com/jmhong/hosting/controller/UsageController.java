@@ -1,13 +1,10 @@
 package com.jmhong.hosting.controller;
 
-import com.jmhong.hosting.domain.MemberType;
 import com.jmhong.hosting.domain.OrderItem;
 import com.jmhong.hosting.domain.Usage;
 import com.jmhong.hosting.dto.MemberResponseDto;
-import com.jmhong.hosting.dto.MemberSearchDto;
 import com.jmhong.hosting.dto.UsageRequestDto;
 import com.jmhong.hosting.dto.UsageSearchDto;
-import com.jmhong.hosting.service.MemberService;
 import com.jmhong.hosting.service.OrderItemService;
 import com.jmhong.hosting.service.UsageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,33 +21,22 @@ import java.util.List;
 public class UsageController {
 
     private UsageService usageService;
-    private MemberService memberService;
     private OrderItemService orderItemService;
 
     @Autowired
-    public UsageController(UsageService usageService, MemberService memberService, OrderItemService orderItemService) {
+    public UsageController(UsageService usageService, OrderItemService orderItemService) {
         this.usageService = usageService;
-        this.memberService = memberService;
         this.orderItemService = orderItemService;
     }
 
-    @GetMapping("/usages/new")
-    public String usageMemberList(Model model, @ModelAttribute MemberSearchDto memberSearchDto) {
-        List<MemberResponseDto> searchResults = memberService.searchMember(memberSearchDto);
-        model.addAttribute("memberSearchDto", new MemberSearchDto());
-        model.addAttribute("results", searchResults);
-        model.addAttribute("memberTypes", MemberType.values());
-        return "/usages/usageMemberList";
-    }
-
-    @GetMapping("/usages/{memberId}/new")
-    public String usageForm(Model model, @PathVariable Long memberId) {
-        List<OrderItem> orderItems = orderItemService.findActiveOrderItems(memberId);
-        String username = memberService.searchById(memberId).getUsername();
+    @GetMapping("/usages/{orderItemId}/new")
+    public String usageForm(Model model, @PathVariable Long orderItemId) {
+        OrderItem orderItem = orderItemService.findById(orderItemId);
+        MemberResponseDto memberResponseDto = new MemberResponseDto(orderItem.getOrder().getMember());
 
         model.addAttribute("usageRequestDto", new UsageRequestDto());
-        model.addAttribute("orderItems", orderItems);
-        model.addAttribute("username", username);
+        model.addAttribute("orderItem", orderItem);
+        model.addAttribute("memberResponseDto", memberResponseDto);
         return "/usages/usageForm";
     }
 
