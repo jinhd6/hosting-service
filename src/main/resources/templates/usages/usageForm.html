@@ -31,5 +31,9 @@
 		</form>
 	</div>
 </main>
+<script layout:fragment="script" th:inline="javascript">
+    const activateTime = new Date([[${orderItem.activateDate}]]);
+    const expireTime = new Date([[${orderItem.expireDate}]]);
+</script>
 </body>
 </html>
