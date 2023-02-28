@@ -35,11 +35,11 @@ class ItemRepositoryTest {
         em.flush();
         em.clear();
 
-        ItemSearchDto itemSearchDto1 = new ItemSearchDto("", null);
-        ItemSearchDto itemSearchDto2 = new ItemSearchDto("item1", ItemStatus.SALE);
-        ItemSearchDto itemSearchDto3 = new ItemSearchDto("item2", ItemStatus.SUSPEND);
-        ItemSearchDto itemSearchDto4 = new ItemSearchDto("tem", null);
-        ItemSearchDto itemSearchDto5 = new ItemSearchDto("xx", null);
+        ItemSearchDto itemSearchDto1 = new ItemSearchDto("", null, "", "", "", "");
+        ItemSearchDto itemSearchDto2 = new ItemSearchDto("item1", ItemStatus.SALE, "11111", "11111", "111", "111");
+        ItemSearchDto itemSearchDto3 = new ItemSearchDto("item2", ItemStatus.SUSPEND, "22222", "22222", "222", "222");
+        ItemSearchDto itemSearchDto4 = new ItemSearchDto("tem", null, "11111", "22222", "111", "222");
+        ItemSearchDto itemSearchDto5 = new ItemSearchDto("xx", null, "22222", "11111", "222", "111");
 
         List<Item> findItem1 = itemRepository.search(itemSearchDto1);
         List<Item> findItem2 = itemRepository.search(itemSearchDto2);

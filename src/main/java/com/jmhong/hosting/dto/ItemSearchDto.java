@@ -10,10 +10,18 @@ public class ItemSearchDto {
 
     private String name;
     private ItemStatus status;
+    private String minPrice;
+    private String maxPrice;
+    private String minPeriod;
+    private String maxPeriod;
 
-    public ItemSearchDto(String name, ItemStatus status) {
+    public ItemSearchDto(String name, ItemStatus status, String minPrice, String maxPrice, String minPeriod, String maxPeriod) {
         this.name = name;
         this.status = status;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.minPeriod = minPeriod;
+        this.maxPeriod = maxPeriod;
     }
 
     public ItemSearchDto() {

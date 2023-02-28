@@ -15,6 +15,14 @@
 		<form action="#" th:action="@{/items}" th:object="${itemSearchDto}">
 			<label th:for="name">상품명 (판매 서버)</label>
 			<input type="text" th:field="*{name}" />
+            <label th:for="minPrice">최소 가격 (원)</label>
+            <input type="text" th:field="*{minPrice}" />
+            <label th:for="maxPrice">최대 가격 (원)</label>
+            <input type="text" th:field="*{maxPrice}" />
+            <label th:for="minPeriod">최소 대여기간 (일)</label>
+            <input type="text" th:field="*{minPeriod}" />
+            <label th:for="maxPeriod">최대 대여기간 (일)</label>
+            <input type="text" th:field="*{maxPeriod}" />
 			<label>상태</label>
 			<select th:field="*{status}">
                 <option th:each="itemStatus : ${itemStatuses}"

@@ -47,7 +47,7 @@ class ItemServiceTest {
         // Given
         Item item1 = createItem("item1", 11111L, 111L, ItemStatus.SALE);
         Item item2 = createItem("item2", 22222L, 222L, ItemStatus.SUSPEND);
-        ItemSearchDto itemSearchDto = new ItemSearchDto("item", null);
+        ItemSearchDto itemSearchDto = new ItemSearchDto("item", null, "11111", "22222", "111", "222");
 
         // When
         List<Item> findItems = itemService.searchItem(itemSearchDto);

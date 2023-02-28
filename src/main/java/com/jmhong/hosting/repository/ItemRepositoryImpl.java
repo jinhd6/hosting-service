@@ -35,6 +35,22 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         if (itemSearchDto.getStatus() != null) {
             query.setParameter("status", itemSearchDto.getStatus());
         }
+
+        if (StringUtils.hasText(itemSearchDto.getMinPrice())) {
+            query.setParameter("minPrice", Long.valueOf(itemSearchDto.getMinPrice()));
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMaxPrice())) {
+            query.setParameter("maxPrice", Long.valueOf(itemSearchDto.getMaxPrice()));
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMinPeriod())) {
+            query.setParameter("minPeriod", Long.valueOf(itemSearchDto.getMinPeriod()));
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMaxPeriod())) {
+            query.setParameter("maxPeriod", Long.valueOf(itemSearchDto.getMaxPeriod()));
+        }
     }
 
     private static String buildJpql(ItemSearchDto itemSearchDto) {
@@ -46,6 +62,22 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
         if (itemSearchDto.getStatus() != null) {
             simpleJpqlBuilder.andWhere("i.status = :status");
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMinPrice())) {
+            simpleJpqlBuilder.andWhere("i.price >= :minPrice");
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMaxPrice())) {
+            simpleJpqlBuilder.andWhere("i.price <= :maxPrice");
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMinPeriod())) {
+            simpleJpqlBuilder.andWhere("i.period >= :minPeriod");
+        }
+
+        if (StringUtils.hasText(itemSearchDto.getMaxPeriod())) {
+            simpleJpqlBuilder.andWhere("i.period <= :maxPeriod");
         }
 
         return simpleJpqlBuilder.build();
