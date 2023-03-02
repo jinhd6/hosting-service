@@ -32,8 +32,12 @@
 	</div>
 </main>
 <script layout:fragment="script" th:inline="javascript">
+const main = function() {
     const activateTime = new Date([[${orderItem.activateDate}]]);
     const expireTime = new Date([[${orderItem.expireDate}]]);
+    makeDualTimePicker("#connectDate", "#disconnectDate", activateTime, expireTime);
+}
+main();
 </script>
 </body>
 </html>

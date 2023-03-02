@@ -35,6 +35,16 @@ public class UsageRepositoryImpl implements UsageRepositoryCustom {
         if (StringUtils.hasText(usageSearchDto.getOrderItemName())) {
             query.setParameter("orderItemName", ("%" + usageSearchDto.getOrderItemName() + "%"));
         }
+
+        if (usageSearchDto.getStartTime() != null
+                && (!usageSearchDto.getStartTime().isAfter(usageSearchDto.getEndTime()))) {
+            query.setParameter("startTime", usageSearchDto.getStartTime());
+        }
+
+        if (usageSearchDto.getEndTime() != null
+                && (!usageSearchDto.getEndTime().isBefore(usageSearchDto.getStartTime()))) {
+            query.setParameter("endTime", usageSearchDto.getEndTime());
+        }
     }
 
     private static String buildJpql(UsageSearchDto usageSearchDto) {
@@ -51,6 +61,16 @@ public class UsageRepositoryImpl implements UsageRepositoryCustom {
 
         if (StringUtils.hasText(usageSearchDto.getOrderItemName())) {
             simpleJpqlBuilder.andWhere("oi.name like :orderItemName");
+        }
+
+        if (usageSearchDto.getStartTime() != null
+                && (!usageSearchDto.getStartTime().isAfter(usageSearchDto.getEndTime()))) {
+            simpleJpqlBuilder.andWhere("u.connectDate <= :endTime");
+        }
+
+        if (usageSearchDto.getEndTime() != null
+                && (!usageSearchDto.getEndTime().isBefore(usageSearchDto.getStartTime()))) {
+            simpleJpqlBuilder.andWhere("u.disconnectDate >= :startTime");
         }
 
         return simpleJpqlBuilder.build();

@@ -61,19 +61,38 @@ class UsageRepositoryTest {
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
 
-        Usage usage1 = new Usage(orderItem1, null, null);
-        Usage usage2 = new Usage(orderItem2, null, null);
+        Usage usage1 = new Usage(
+                orderItem1,
+                LocalDateTime.of(2023, 3, 2, 11, 41),
+                LocalDateTime.of(2023, 3, 2, 23, 41));
+        Usage usage2 = new Usage(
+                orderItem2,
+                LocalDateTime.of(2023, 3, 3, 11, 41),
+                LocalDateTime.of(2023, 3, 3, 23, 41));
         usageRepository.save(usage1);
         usageRepository.save(usage2);
 
         em.flush();
         em.clear();
 
-        UsageSearchDto usageSearchDto1 = new UsageSearchDto("", "");
-        UsageSearchDto usageSearchDto2 = new UsageSearchDto("id1", "oi1");
-        UsageSearchDto usageSearchDto3 = new UsageSearchDto("id2", "oi2");
-        UsageSearchDto usageSearchDto4 = new UsageSearchDto("d", "i");
-        UsageSearchDto usageSearchDto5 = new UsageSearchDto("xx", "xx");
+        UsageSearchDto usageSearchDto1 = new UsageSearchDto(
+                "", "", null, null);
+        UsageSearchDto usageSearchDto2 = new UsageSearchDto(
+                "id1", "oi1",
+                LocalDateTime.of(2023, 3, 2, 11, 41),
+                LocalDateTime.of(2023, 3, 2, 23, 41));
+        UsageSearchDto usageSearchDto3 = new UsageSearchDto(
+                "id2", "oi2",
+                LocalDateTime.of(2023, 3, 3, 11, 41),
+                LocalDateTime.of(2023, 3, 3, 23, 41));
+        UsageSearchDto usageSearchDto4 = new UsageSearchDto(
+                "d", "i",
+                LocalDateTime.of(2023, 3, 2, 11, 41),
+                LocalDateTime.of(2023, 3, 3, 23, 41));
+        UsageSearchDto usageSearchDto5 = new UsageSearchDto(
+                "xx", "xx",
+                LocalDateTime.of(2023, 3, 1, 11, 41),
+                LocalDateTime.of(2023, 3, 2, 11, 40));
 
         List<Usage> findUsage1 = usageRepository.search(usageSearchDto1);
         List<Usage> findUsage2 = usageRepository.search(usageSearchDto2);
