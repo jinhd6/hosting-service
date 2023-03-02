@@ -65,12 +65,12 @@ public class UsageRepositoryImpl implements UsageRepositoryCustom {
 
         if (usageSearchDto.getStartTime() != null
                 && (!usageSearchDto.getStartTime().isAfter(usageSearchDto.getEndTime()))) {
-            simpleJpqlBuilder.andWhere("u.connectDate <= :endTime");
+            simpleJpqlBuilder.andWhere("u.disconnectDate >= :startTime");
         }
 
         if (usageSearchDto.getEndTime() != null
                 && (!usageSearchDto.getEndTime().isBefore(usageSearchDto.getStartTime()))) {
-            simpleJpqlBuilder.andWhere("u.disconnectDate >= :startTime");
+            simpleJpqlBuilder.andWhere("u.connectDate <= :endTime");
         }
 
         return simpleJpqlBuilder.build();
