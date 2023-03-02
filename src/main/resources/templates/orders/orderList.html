@@ -27,12 +27,14 @@
 			<input type="text" th:field="*{customerAddress}" />
 			<label>주문종류</label>
 			<select th:field="*{type}">
+                <option value="">전체</option>
                 <option th:each="orderType : ${orderTypes}"
                         th:value="${orderType}"
                         th:text="${orderType.typeName}">주문종류1</option>
 			</select>
 			<label>상태</label>
 			<select th:field="*{status}">
+                <option value="">전체</option>
                 <option th:each="orderStatus : ${orderStatuses}"
                         th:value="${orderStatus}"
                         th:text="${orderStatus.statusName}">주문상태1</option>

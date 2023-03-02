@@ -25,6 +25,7 @@
 			<input type="text" th:field="*{email}" />
 			<label>회원유형</label>
 			<select th:field="*{type}">
+                <option value="">전체</option>
                 <option th:each="memberType : ${memberTypes}"
                         th:value="${memberType}"
                         th:text="${memberType.typeName}">회원유형</option>
