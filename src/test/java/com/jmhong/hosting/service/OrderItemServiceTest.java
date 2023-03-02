@@ -67,11 +67,11 @@ class OrderItemServiceTest {
         // Given
         Long price1 = 11111L;
         Long period1 = 111L;
-        LocalDateTime activateDate1 = LocalDateTime.now();
+        LocalDateTime activateDate1 = LocalDateTime.of(2023, 3, 2, 15, 42);
         LocalDateTime expireDate1 = activateDate1.plusDays(period1);
         Long price2 = 22222L;
         Long period2 = 222L;
-        LocalDateTime activateDate2 = LocalDateTime.now();
+        LocalDateTime activateDate2 = LocalDateTime.of(2023, 3, 3, 15, 42);
         LocalDateTime expireDate2 = activateDate2.plusDays(period2);
         Member member1 = createMember("id1", "pw1", "id1@email.com", "이름1",
                 "010-0000-0001", "주소1", MemberType.MEMBER);
@@ -88,7 +88,10 @@ class OrderItemServiceTest {
         OrderItem orderItem2 = createOrderItem(order2, item2, "orderItem2", activateDate2, expireDate2,
                 price2, period2, OrderItemStatus.EXPIRE);
         OrderItemSearchDto orderItemSearchDto = new OrderItemSearchDto(
-                "orderItem", "이름", "item", null);
+                "orderItem", "이름",
+                LocalDateTime.of(2023, 3, 2, 15, 42),
+                LocalDateTime.of(2023, 3, 3, 15, 42),
+                null);
 
         // When
         List<OrderItem> findOrderItems = orderItemService.search(orderItemSearchDto);

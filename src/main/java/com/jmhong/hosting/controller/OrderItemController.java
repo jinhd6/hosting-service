@@ -28,6 +28,7 @@ public class OrderItemController {
         model.addAttribute("orderItemSearchDto", new OrderItemSearchDto());
         model.addAttribute("orderItems", orderItems);
         model.addAttribute("orderItemStatuses", OrderItemStatus.values());
+        model.addAttribute("activeStatus", OrderItemStatus.ACTIVE);
         return "/orderItems/orderItemList";
     }
 }

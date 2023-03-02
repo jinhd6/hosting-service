@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,19 +60,44 @@ public class OrderItemRepositoryTest {
         itemRepository.save(item1);
         itemRepository.save(item2);
 
-        OrderItem orderItem1 = new OrderItem(order1, item1, "oi1", null, null, 111111L, 1111L, OrderItemStatus.ACTIVE);
-        OrderItem orderItem2 = new OrderItem(order2, item2, "oi2", null, null, 222222L, 2222L, OrderItemStatus.EXPIRE);
+        OrderItem orderItem1 = new OrderItem(
+                order1, item1, "oi1",
+                LocalDateTime.of(2023, 3, 2, 15, 36),
+                LocalDateTime.of(2023, 3, 3, 15, 36),
+                111111L, 1111L, OrderItemStatus.ACTIVE);
+        OrderItem orderItem2 = new OrderItem(
+                order2, item2, "oi2",
+                LocalDateTime.of(2023, 3, 4, 15, 36),
+                LocalDateTime.of(2023, 3, 5, 15, 36),
+                222222L, 2222L, OrderItemStatus.EXPIRE);
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
 
         em.flush();
         em.clear();
 
-        OrderItemSearchDto orderItemSearchDto1 = new OrderItemSearchDto("", "", "", null);
-        OrderItemSearchDto orderItemSearchDto2 = new OrderItemSearchDto("oi1", "cn1", "item1", OrderItemStatus.ACTIVE);
-        OrderItemSearchDto orderItemSearchDto3 = new OrderItemSearchDto("oi2", "cn2", "item2", OrderItemStatus.EXPIRE);
-        OrderItemSearchDto orderItemSearchDto4 = new OrderItemSearchDto("i", "n", "tem", null);
-        OrderItemSearchDto orderItemSearchDto5 = new OrderItemSearchDto("xx", "xx", "xx", null);
+        OrderItemSearchDto orderItemSearchDto1 = new OrderItemSearchDto(
+                "", "",null, null, null);
+        OrderItemSearchDto orderItemSearchDto2 = new OrderItemSearchDto(
+                "oi1", "cn1",
+                LocalDateTime.of(2023, 3, 2, 15, 36),
+                LocalDateTime.of(2023, 3, 3, 15, 36),
+                OrderItemStatus.ACTIVE);
+        OrderItemSearchDto orderItemSearchDto3 = new OrderItemSearchDto(
+                "oi2", "cn2",
+                LocalDateTime.of(2023, 3, 4, 15, 36),
+                LocalDateTime.of(2023, 3, 5, 15, 36),
+                OrderItemStatus.EXPIRE);
+        OrderItemSearchDto orderItemSearchDto4 = new OrderItemSearchDto(
+                "i", "n",
+                LocalDateTime.of(2023, 3, 2, 15, 36),
+                LocalDateTime.of(2023, 3, 5, 15, 36),
+                null);
+        OrderItemSearchDto orderItemSearchDto5 = new OrderItemSearchDto(
+                "xx", "xx",
+                LocalDateTime.of(2023, 3, 3, 15, 37),
+                LocalDateTime.of(2023, 3, 4, 15, 35),
+                null);
 
         List<OrderItem> findOrderItem1 = orderItemRepository.search(orderItemSearchDto1);
         List<OrderItem> findOrderItem2 = orderItemRepository.search(orderItemSearchDto2);

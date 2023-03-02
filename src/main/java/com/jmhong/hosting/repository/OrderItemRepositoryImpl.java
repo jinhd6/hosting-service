@@ -36,8 +36,14 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
             query.setParameter("orderCustomerName", ("%" + orderItemSearchDto.getOrderCustomerName() + "%"));
         }
 
-        if (StringUtils.hasText(orderItemSearchDto.getItemName())) {
-            query.setParameter("itemName", ("%" + orderItemSearchDto.getItemName() + "%"));
+        if (orderItemSearchDto.getStartTime() != null &&
+                (!orderItemSearchDto.getStartTime().isAfter(orderItemSearchDto.getEndTime()))) {
+            query.setParameter("startTime", orderItemSearchDto.getStartTime());
+        }
+
+        if (orderItemSearchDto.getEndTime() != null &&
+                (!orderItemSearchDto.getEndTime().isBefore(orderItemSearchDto.getStartTime()))) {
+            query.setParameter("endTime", orderItemSearchDto.getEndTime());
         }
 
         if (orderItemSearchDto.getStatus() != null) {
@@ -46,7 +52,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
     }
 
     private static String buildJpql(OrderItemSearchDto orderItemSearchDto) {
-        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select oi from OrderItem oi join oi.order o join oi.item i");
+        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select oi from OrderItem oi join oi.order o");
 
         if (StringUtils.hasText(orderItemSearchDto.getOrderItemName())) {
             simpleJpqlBuilder.andWhere("oi.name like :orderItemName");
@@ -56,8 +62,14 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
             simpleJpqlBuilder.andWhere("o.customerName like :orderCustomerName");
         }
 
-        if (StringUtils.hasText(orderItemSearchDto.getItemName())) {
-            simpleJpqlBuilder.andWhere("i.name like :itemName");
+        if (orderItemSearchDto.getStartTime() != null &&
+                (!orderItemSearchDto.getStartTime().isAfter(orderItemSearchDto.getEndTime()))) {
+            simpleJpqlBuilder.andWhere("oi.expireDate >= :startTime");
+        }
+
+        if (orderItemSearchDto.getEndTime() != null &&
+                (!orderItemSearchDto.getEndTime().isBefore(orderItemSearchDto.getStartTime()))) {
+            simpleJpqlBuilder.andWhere("oi.activateDate <= :endTime");
         }
 
         if (orderItemSearchDto.getStatus() != null) {
