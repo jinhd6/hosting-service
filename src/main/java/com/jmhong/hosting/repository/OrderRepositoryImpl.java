@@ -28,6 +28,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     }
 
     private static void setQueryParams(OrderSearchDto orderSearchDto, TypedQuery<Order> query) {
+        if (orderSearchDto.getStartTime() != null &&
+                (!orderSearchDto.getStartTime().isAfter(orderSearchDto.getEndTime()))) {
+            query.setParameter("startTime", orderSearchDto.getStartTime());
+        }
+
+        if (orderSearchDto.getEndTime() != null &&
+                (!orderSearchDto.getEndTime().isBefore(orderSearchDto.getStartTime()))) {
+            query.setParameter("endTime", orderSearchDto.getEndTime());
+        }
+
         if (StringUtils.hasText(orderSearchDto.getMemberUsername())) {
             query.setParameter("username", ("%" + orderSearchDto.getMemberUsername() + "%"));
         }
@@ -55,6 +65,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     private static String buildJpql(OrderSearchDto orderSearchDto) {
         SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select o from Order o join o.member m");
+
+        if (orderSearchDto.getStartTime() != null &&
+                (!orderSearchDto.getStartTime().isAfter(orderSearchDto.getEndTime()))) {
+            simpleJpqlBuilder.andWhere("o.orderDate >= :startTime");
+        }
+
+        if (orderSearchDto.getEndTime() != null &&
+                (!orderSearchDto.getEndTime().isBefore(orderSearchDto.getStartTime()))) {
+            simpleJpqlBuilder.andWhere("o.orderDate <= :endTime");
+        }
 
         if (StringUtils.hasText(orderSearchDto.getMemberUsername())) {
             simpleJpqlBuilder.andWhere("m.username like :username");

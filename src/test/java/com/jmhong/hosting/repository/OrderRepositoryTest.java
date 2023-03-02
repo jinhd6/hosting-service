@@ -10,6 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,10 +42,12 @@ class OrderRepositoryTest {
         memberRepository.save(member1);
         memberRepository.save(member2);
 
-        Order order1 = new Order(member1, null, realName1, phoneNumber1, address1,
-                OrderType.NEW, OrderStatus.ORDER);
-        Order order2 = new Order(member2, null, realName2, phoneNumber2, address2,
-                OrderType.EXTEND, OrderStatus.CANCEL);
+        Order order1 = new Order(member1,
+                LocalDateTime.of(2023, 3, 2, 14, 58),
+                realName1, phoneNumber1, address1, OrderType.NEW, OrderStatus.ORDER);
+        Order order2 = new Order(member2,
+                LocalDateTime.of(2023, 3, 3, 14, 58),
+                realName2, phoneNumber2, address2, OrderType.EXTEND, OrderStatus.CANCEL);
         orderRepository.save(order1);
         orderRepository.save(order2);
 
@@ -52,18 +55,27 @@ class OrderRepositoryTest {
         em.clear();
 
         OrderSearchDto orderSearchDto1 = new OrderSearchDto(
+                null, null,
                 "", "", "", "",
                 null, null);
         OrderSearchDto orderSearchDto2 = new OrderSearchDto(
+                LocalDateTime.of(2023, 3, 2, 14, 58),
+                LocalDateTime.of(2023, 3, 2, 14, 58),
                 "id1", "cn1", "cpn1", "ca1",
                 OrderType.NEW, OrderStatus.ORDER);
         OrderSearchDto orderSearchDto3 = new OrderSearchDto(
+                LocalDateTime.of(2023, 3, 3, 14, 58),
+                LocalDateTime.of(2023, 3, 3, 14, 58),
                 "id2", "cn2", "cpn2", "ca2",
                 OrderType.EXTEND, OrderStatus.CANCEL);
         OrderSearchDto orderSearchDto4 = new OrderSearchDto(
+                LocalDateTime.of(2023, 3, 2, 14, 58),
+                LocalDateTime.of(2023, 3, 3, 14, 58),
                 "d", "n", "p", "a",
                 null, null);
         OrderSearchDto orderSearchDto5 = new OrderSearchDto(
+                LocalDateTime.of(2023, 3, 1, 14, 58),
+                LocalDateTime.of(2023, 3, 2, 14, 57),
                 "xx", "xx", "xx", "xx",
                 null, null);
 

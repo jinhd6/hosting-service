@@ -55,13 +55,18 @@ public class OrderServiceTest {
                 "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
         Member member2 = createMember("id2", "pw2", "id2@email.com",
                 "이름2", "010-0000-0002", "주소2", MemberType.ADMIN);
-        Order order1 = createOrder(member1, LocalDateTime.now(),
+        Order order1 = createOrder(member1,
+                LocalDateTime.of(2023, 3, 2, 15, 8),
                 "이름1", "010-0000-0001", "주소1",
                 OrderType.NEW, OrderStatus.ORDER);
-        Order order2 = createOrder(member2, LocalDateTime.now(),
+        Order order2 = createOrder(member2,
+                LocalDateTime.of(2023, 3, 3, 15, 8),
                 "이름2", "010-0000-0002", "주소2",
                 OrderType.EXTEND, OrderStatus.CANCEL);
-        OrderSearchDto orderSearchDto = new OrderSearchDto("id", "이름",
+        OrderSearchDto orderSearchDto = new OrderSearchDto(
+                LocalDateTime.of(2023, 3, 2, 15, 8),
+                LocalDateTime.of(2023, 3, 3, 15, 8),
+                "id", "이름",
                 "010-0000", "주소", null, null);
 
         // When

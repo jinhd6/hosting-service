@@ -13,6 +13,10 @@
 	<div class="card">
 		<h2 class="card-title">주문내역 조회</h2>
 		<form action="#" th:action="@{/orders}" th:object="${orderSearchDto}">
+            <label th:for="startTime">주문시간 (시작)</label>
+            <input type="text" th:field="*{startTime}" />
+            <label th:for="endTime">주문시간 (끝)</label>
+            <input type="text" th:field="*{endTime}" />
 			<label th:for="memberUsername">회원아이디</label>
             <input type="text" th:field="*{memberUsername}" />
 			<label th:for="customerName">주문자명</label>
@@ -71,5 +75,8 @@
 		</table>
 	</div>
 </main>
+<script layout:fragment="script" th:inline="javascript">
+makeDualTimePicker("#startTime", "#endTime", null, null);
+</script>
 </body>
 </html>
