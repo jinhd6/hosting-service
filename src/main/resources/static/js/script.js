@@ -19,7 +19,23 @@ const getTimezoneDesignator = function(timezoneOffset) {
     }
 }
 
+const fitStartTime = function(startTime) {
+    if (startTime !== null) {
+        startTime = new Date(Math.ceil(startTime / 1000) * 1000);
+    }
+    return startTime;
+}
+
+const fitEndTime = function(endTime) {
+    if (endTime !== null) {
+        endTime = new Date(Math.floor(endTime / 1000) * 1000);
+    }
+    return endTime;
+}
+
 const makeDualTimePicker = function(startSelector, endSelector, startTime, endTime) {
+    startTime = fitStartTime(startTime);
+    endTime = fitEndTime(endTime);
     const now = new Date();
     const timezoneOffset = new Date().getTimezoneOffset();
     const isoDatetimeFormat = "Y-m-dTH:i:S.000" + getTimezoneDesignator(timezoneOffset);

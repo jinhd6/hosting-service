@@ -26,16 +26,9 @@ public class UsageService {
 
     public Usage saveUsage(UsageRequestDto dto) {
         OrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElseThrow();
-        completeOrder(orderItem.getOrder());
-        Usage usage = new Usage(orderItem, dto.getConnectDate(), dto.getDisconnectDate());
+        Usage usage = Usage.createUsage(orderItem, dto.getConnectDate(), dto.getDisconnectDate());
         usageRepository.save(usage);
         return usage;
-    }
-
-    private static void completeOrder(Order order) {
-        if (order.getStatus() == OrderStatus.ORDER) {
-            order.updateStatus(OrderStatus.COMPLETE);
-        }
     }
 
     @Transactional(readOnly = true)

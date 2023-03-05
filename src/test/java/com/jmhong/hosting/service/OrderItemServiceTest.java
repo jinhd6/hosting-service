@@ -13,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,30 +37,20 @@ class OrderItemServiceTest {
     private OrderItemRepository orderItemRepository;
 
     @Test
-    void saveOrderItem() {
+    void saveOrderItems() {
         // Given
-        Long price = 11111L;
-        Long period = 111L;
-        LocalDateTime activateDate = LocalDateTime.now();
-        LocalDateTime expireDate = activateDate.plusDays(period);
+        LocalDateTime now = LocalDateTime.now();
         Member member = createMember("id1", "pw1", "id1@email.com", "이름1",
                 "010-0000-0001", "주소1", MemberType.MEMBER);
-        Item item = createItem("item1", price, period, ItemStatus.SALE);
-        Order order = createOrder(member, LocalDateTime.now(), "이름1", "010-0000-0001",
-                "주소1", OrderType.NEW, OrderStatus.ORDER);
+        Item item = createItem("item1", 11111L, 111L, ItemStatus.SALE);
+        Order order = createOrder(member, now, "이름1", "010-0000-0001",
+                "주소1", OrderType.NEW, OrderStatus.ORDER, 2L);
+        List<OrderItem> orderItems = orderItemService.saveOrderItems(order, item);
 
-        Long orderItemId = orderItemService.saveOrderItem(order, item, "orderItem1",
-                activateDate, expireDate, price, period);
-
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(NoSuchElementException::new);
-        assertEquals(order, orderItem.getOrder());
-        assertEquals(item, orderItem.getItem());
-        assertEquals("orderItem1", orderItem.getName());
-        assertEquals(activateDate, orderItem.getActivateDate());
-        assertEquals(expireDate, orderItem.getExpireDate());
-        assertEquals(11111L, orderItem.getOrderPrice());
-        assertEquals(111L, orderItem.getOrderPeriod());
-        assertEquals(OrderItemStatus.ACTIVE, orderItem.getStatus());
+        assertEquals(2, orderItems.size());
+        Long orderId = order.getId();
+        List<String> names = Arrays.asList("item1_" + orderId + "_1", "item1_" + orderId + "_2");
+        assertEquals(names, orderItems.stream().map(OrderItem::getName).collect(Collectors.toList()));
     }
 
     @Test
@@ -80,9 +71,9 @@ class OrderItemServiceTest {
         Item item1 = createItem("item1", price1, period1, ItemStatus.SALE);
         Item item2 = createItem("item2", price2, period2, ItemStatus.SUSPEND);
         Order order1 = createOrder(member1, LocalDateTime.now(), "이름1", "010-0000-0001",
-                "주소1", OrderType.NEW, OrderStatus.ORDER);
+                "주소1", OrderType.NEW, OrderStatus.ORDER, 1L);
         Order order2 = createOrder(member2, LocalDateTime.now(), "이름2", "010-0000-0002",
-                "주소2", OrderType.NEW, OrderStatus.ORDER);
+                "주소2", OrderType.NEW, OrderStatus.ORDER, 1L);
         OrderItem orderItem1 = createOrderItem(order1, item1, "orderItem1", activateDate1, expireDate1,
                 price1, period1, OrderItemStatus.ACTIVE);
         OrderItem orderItem2 = createOrderItem(order2, item2, "orderItem2", activateDate2, expireDate2,
@@ -108,8 +99,9 @@ class OrderItemServiceTest {
     }
 
     private Order createOrder(Member member, LocalDateTime orderDate, String customerName, String customerPhoneNumber,
-                              String customerAddress, OrderType type, OrderStatus status) {
-        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress, type, status);
+                              String customerAddress, OrderType type, OrderStatus status, Long quantity) {
+        Order order = new Order(
+                member, orderDate, customerName, customerPhoneNumber, customerAddress, type, status, quantity);
         em.persist(order);
         return order;
     }

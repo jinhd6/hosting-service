@@ -55,14 +55,14 @@ public class OrderServiceTest {
                 "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
         Member member2 = createMember("id2", "pw2", "id2@email.com",
                 "이름2", "010-0000-0002", "주소2", MemberType.ADMIN);
-        Order order1 = createOrder(member1,
-                LocalDateTime.of(2023, 3, 2, 15, 8),
+        Order order1 = createOrder(
+                member1, LocalDateTime.of(2023, 3, 2, 15, 8),
                 "이름1", "010-0000-0001", "주소1",
-                OrderType.NEW, OrderStatus.ORDER);
-        Order order2 = createOrder(member2,
-                LocalDateTime.of(2023, 3, 3, 15, 8),
+                OrderType.NEW, OrderStatus.ORDER, 1L);
+        Order order2 = createOrder(
+                member2, LocalDateTime.of(2023, 3, 3, 15, 8),
                 "이름2", "010-0000-0002", "주소2",
-                OrderType.EXTEND, OrderStatus.CANCEL);
+                OrderType.EXTEND, OrderStatus.CANCEL, 1L);
         OrderSearchDto orderSearchDto = new OrderSearchDto(
                 LocalDateTime.of(2023, 3, 2, 15, 8),
                 LocalDateTime.of(2023, 3, 3, 15, 8),
@@ -108,8 +108,9 @@ public class OrderServiceTest {
     }
 
     private Order createOrder(Member member, LocalDateTime orderDate, String customerName, String customerPhoneNumber,
-                              String customerAddress, OrderType type, OrderStatus status) {
-        Order order = new Order(member, orderDate, customerName, customerPhoneNumber, customerAddress, type, status);
+                              String customerAddress, OrderType type, OrderStatus status, Long quantity) {
+        Order order = new Order(
+                member, orderDate, customerName, customerPhoneNumber, customerAddress, type, status, quantity);
         em.persist(order);
         return order;
     }

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,21 +33,10 @@ public class OrderService {
     public Order saveOrder(OrderRequestDto dto) {
         Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
         Item item = itemRepository.findById(dto.getItemId()).orElseThrow();
-        Order order = new Order(member, LocalDateTime.now(), member.getRealName(), member.getPhoneNumber(),
-                member.getAddress(), OrderType.NEW, OrderStatus.ORDER);
+        Order order = Order.createOrder(member, item, dto.getQuantity());
         orderRepository.save(order);
-
-        for (int orderItemSuffix = 1; orderItemSuffix <= dto.getQuantity(); orderItemSuffix++) {
-            String name = item.getName() + "_" + order.getId() + "_" + orderItemSuffix;
-            createOrderItem(name, item, order);
-        }
+        orderItemService.saveOrderItems(order, item);
         return order;
-    }
-
-    private void createOrderItem(String name, Item item, Order order) {
-        LocalDateTime activateDate = LocalDateTime.now();
-        LocalDateTime expireDate = activateDate.plusDays(item.getPeriod());
-        orderItemService.saveOrderItem(order, item, name, activateDate, expireDate, item.getPrice(), item.getPeriod());
     }
 
     @Transactional(readOnly = true)
@@ -63,9 +51,6 @@ public class OrderService {
 
     public void cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow();
-        order.updateStatus(OrderStatus.CANCEL);
-        for (OrderItem orderItem : order.getOrderItems()) {
-            orderItem.cancelOrderItem();
-        }
+        order.cancelOrder();
     }
 }

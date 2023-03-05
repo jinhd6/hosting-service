@@ -44,10 +44,10 @@ class OrderRepositoryTest {
 
         Order order1 = new Order(member1,
                 LocalDateTime.of(2023, 3, 2, 14, 58),
-                realName1, phoneNumber1, address1, OrderType.NEW, OrderStatus.ORDER);
+                realName1, phoneNumber1, address1, OrderType.NEW, OrderStatus.ORDER, 1L);
         Order order2 = new Order(member2,
                 LocalDateTime.of(2023, 3, 3, 14, 58),
-                realName2, phoneNumber2, address2, OrderType.EXTEND, OrderStatus.CANCEL);
+                realName2, phoneNumber2, address2, OrderType.EXTEND, OrderStatus.CANCEL, 1L);
         orderRepository.save(order1);
         orderRepository.save(order2);
 

@@ -32,9 +32,13 @@ class UsageServiceTest {
         OrderItem orderItem = mock(OrderItem.class);
         Order order = mock(Order.class);
         when(orderItem.getOrder()).thenReturn(order);
-        LocalDateTime activateTime = LocalDateTime.of(2023, 1, 1, 0, 0);
-        LocalDateTime expireTime = LocalDateTime.of(2023, 1, 2, 0, 0);
-        UsageRequestDto usageRequestDto = new UsageRequestDto(1L, 2L, activateTime, expireTime);
+        when(orderItem.getActivateDate())
+                .thenReturn(LocalDateTime.of(2022, 12, 31, 23, 59));
+        when(orderItem.getExpireDate())
+                .thenReturn(LocalDateTime.of(2023, 1, 2, 0, 1));
+        LocalDateTime connectTime = LocalDateTime.of(2023, 1, 1, 0, 0);
+        LocalDateTime disconnectTime = LocalDateTime.of(2023, 1, 2, 0, 0);
+        UsageRequestDto usageRequestDto = new UsageRequestDto(1L, 2L, connectTime, disconnectTime);
         when(orderItemRepository.findById(2L)).thenReturn(Optional.of(orderItem));
 
         // When

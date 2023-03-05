@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 @Service
 @Transactional
@@ -21,12 +22,17 @@ public class OrderItemService {
         this.orderItemRepository = orderItemRepository;
     }
 
-    public Long saveOrderItem(Order order, Item item, String name,
-                              LocalDateTime activateDate, LocalDateTime expireDate, Long price, Long period) {
-        OrderItem orderItem = new OrderItem(order, item, name,
-                activateDate, expireDate, price, period, OrderItemStatus.ACTIVE);
-        orderItemRepository.save(orderItem);
-        return orderItem.getId();
+    public List<OrderItem> saveOrderItems(Order order, Item item) {
+        List<OrderItem> orderItems = generateNames(order, item).stream()
+                .map(name -> OrderItem.createOrderItem(order, item, name))
+                .collect(Collectors.toList());
+        return orderItemRepository.saveAll(orderItems);
+    }
+
+    public static List<String> generateNames(Order order, Item item) {
+        return LongStream.rangeClosed(1, order.getQuantity())
+                .mapToObj(suffix -> item.getName() + "_" + order.getId() + "_" + suffix)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

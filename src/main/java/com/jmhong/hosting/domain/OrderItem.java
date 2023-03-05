@@ -56,7 +56,17 @@ public class OrderItem {
         this.expireDate = expireDate;
     }
 
+    public static OrderItem createOrderItem(Order order, Item item, String name) {
+        LocalDateTime activateDate = LocalDateTime.now();
+        LocalDateTime expireDate = activateDate.plusDays(item.getPeriod());
+        return new OrderItem(order, item, name,
+                activateDate, expireDate, item.getPrice(), item.getPeriod(), OrderItemStatus.ACTIVE);
+    }
+
     public void cancelOrderItem() {
+        if (status == OrderItemStatus.EXPIRE) {
+            throw new IllegalStateException("대여가 끝난 주문상품을 취소할 수 없습니다.");
+        }
         status = OrderItemStatus.CANCEL;
     }
 }

@@ -35,12 +35,14 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    private Long quantity;
+
     protected Order() {
     }
 
     public Order(Member member, LocalDateTime orderDate,
                  String customerName, String customerPhoneNumber, String customerAddress,
-                 OrderType type, OrderStatus status) {
+                 OrderType type, OrderStatus status, Long quantity) {
         this.member = member;
         this.orderDate = orderDate;
         this.customerName = customerName;
@@ -48,11 +50,34 @@ public class Order {
         this.customerAddress = customerAddress;
         this.type = type;
         this.status = status;
+        this.quantity = quantity;
         member.addOrder(this);
     }
 
-    public void updateStatus(OrderStatus status) {
-        this.status = status;
+    public static Order createOrder(Member member, Item item, Long quantity) {
+        if (item.getStatus() == ItemStatus.SUSPEND) {
+            throw new IllegalStateException("판매 중단된 상품을 주문할 수 없습니다.");
+        }
+        return new Order(member, LocalDateTime.now(),
+                member.getRealName(), member.getPhoneNumber(), member.getAddress(),
+                OrderType.NEW, OrderStatus.ORDER, quantity);
+    }
+
+    public void cancelOrder() {
+        if (status == OrderStatus.COMPLETE) {
+            throw new IllegalStateException("완료된 주문을 취소할 수 없습니다.");
+        }
+        status = OrderStatus.CANCEL;
+        for (OrderItem orderItem : this.getOrderItems()) {
+            orderItem.cancelOrderItem();
+        }
+    }
+
+    public void completeOrder() {
+        if (status == OrderStatus.CANCEL) {
+            throw new IllegalStateException("취소된 주문을 완료할 수 없습니다.");
+        }
+        status = OrderStatus.COMPLETE;
     }
 
     public void addOrderItem(OrderItem orderItem) {
