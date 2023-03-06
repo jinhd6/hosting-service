@@ -48,14 +48,6 @@ public class OrderItem {
         order.addOrderItem(this);
     }
 
-    public void updateName(String name) {
-        this.name = name;
-    }
-
-    public void updateExpireDate(LocalDateTime expireDate) {
-        this.expireDate = expireDate;
-    }
-
     public static OrderItem createOrderItem(Order order, Item item, String name) {
         LocalDateTime activateDate = LocalDateTime.now();
         LocalDateTime expireDate = activateDate.plusDays(item.getPeriod());
