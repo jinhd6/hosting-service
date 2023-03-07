@@ -204,7 +204,6 @@ nav .dropdown:hover li:hover {
 
 .jumbotron .jumbotron-image {
     flex: auto;
-    min-height: 200px;
 
     display: flex;
     justify-content: center;
@@ -243,6 +242,7 @@ nav .dropdown:hover li:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .album .album-body .album-item .album-item-text {
