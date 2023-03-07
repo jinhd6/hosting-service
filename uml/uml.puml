@@ -1,0 +1,73 @@
+@startuml
+
+hide circle
+skinparam linetype ortho
+
+entity Member
+entity Item
+entity Orders
+entity OrderItem
+entity Usages
+
+
+Member ||.o{ Orders
+Orders ||.|{ OrderItem
+OrderItem }o.|| Item
+Usages }o..|| OrderItem
+
+entity "MEMBER" as Member {
+    MEMBER_ID
+    --
+    USERNAME
+    PASSWORD
+    EMAIL
+    REAL_NAME
+    PHONE_NUMBER
+    ADDRESS
+    TYPE
+}
+
+entity "        ITEM        " as Item {
+    ITEM_ID
+    --
+    NAME
+    PRICE
+    PERIOD
+    STATUS
+}
+
+entity "ORDERS" as Orders {
+    ORDER_ID
+    --
+    MEMBER_ID <<FK>>
+    ORDER_DATE
+    CUSTOMER_NAME
+    CUSTOMER_PHONE_NUMBER
+    CUSTOMER_ADDRESS
+    QUANTITY
+    TYPE
+    STATUS
+}
+
+entity "ORDER_ITEM" as OrderItem {
+    ORDER_ITEM_ID
+    --
+    ORDER_ID <<FK>>
+    ITEM_ID <<FK>>
+    NAME
+    ACTIVATE_DATE
+    EXPIRE_DATE
+    ORDER_PRICE
+    ORDER_PERIOD
+    STATUS
+}
+
+entity "USAGES" as Usages {
+    USAGE_ID
+    --
+    ORDER_ITEM <<FK>>
+    CONNECT_DATE
+    DISCONNECT_DATE
+}
+
+@enduml
