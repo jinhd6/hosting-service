@@ -1,7 +1,7 @@
 package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.*;
-import com.jmhong.hosting.dto.OrderItemSearchDto;
+import com.jmhong.hosting.dto.OrderItemCond;
 import com.jmhong.hosting.repository.OrderItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,14 +78,14 @@ class OrderItemServiceTest {
                 price1, period1, OrderItemStatus.ACTIVE);
         OrderItem orderItem2 = createOrderItem(order2, item2, "orderItem2", activateDate2, expireDate2,
                 price2, period2, OrderItemStatus.EXPIRE);
-        OrderItemSearchDto orderItemSearchDto = new OrderItemSearchDto(
+        OrderItemCond orderItemCond = new OrderItemCond(
                 "orderItem", "이름",
                 LocalDateTime.of(2023, 3, 2, 15, 42),
                 LocalDateTime.of(2023, 3, 3, 15, 42),
                 null);
 
         // When
-        List<OrderItem> findOrderItems = orderItemService.search(orderItemSearchDto);
+        List<OrderItem> findOrderItems = orderItemService.search(orderItemCond);
 
         // Then
         assertEquals(2, findOrderItems.size());

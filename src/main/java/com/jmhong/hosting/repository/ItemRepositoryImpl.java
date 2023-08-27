@@ -1,85 +1,68 @@
 package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.Item;
-import com.jmhong.hosting.dto.ItemSearchDto;
-import com.jmhong.hosting.util.SimpleJpqlBuilder;
+import com.jmhong.hosting.domain.ItemStatus;
+import com.jmhong.hosting.dto.ItemCond;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
+
+import static com.jmhong.hosting.domain.QItem.item;
+import static org.springframework.util.StringUtils.hasText;
 
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Autowired
     public ItemRepositoryImpl(EntityManager em) {
         this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
-    public List<Item> search(ItemSearchDto itemSearchDto) {
-        String jpql = buildJpql(itemSearchDto);
-        TypedQuery<Item> query = em.createQuery(jpql, Item.class).setMaxResults(1000);
-        setQueryParams(itemSearchDto, query);
-        return query.getResultList();
+    public List<Item> search(ItemCond itemCond) {
+        return queryFactory
+                .select(item)
+                .from(item)
+                .where(
+                        nameContains(itemCond.getName()),
+                        statusEq(itemCond.getStatus()),
+                        priceGoe(itemCond.getMinPrice()),
+                        priceLoe(itemCond.getMaxPrice()),
+                        periodGoe(itemCond.getMinPeriod()),
+                        periodLoe(itemCond.getMaxPeriod())
+                )
+                .limit(1000)
+                .fetch();
     }
 
-    private static void setQueryParams(ItemSearchDto itemSearchDto, TypedQuery<Item> query) {
-        if (StringUtils.hasText(itemSearchDto.getName())) {
-            query.setParameter("name", ("%" + itemSearchDto.getName() + "%"));
-        }
-
-        if (itemSearchDto.getStatus() != null) {
-            query.setParameter("status", itemSearchDto.getStatus());
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMinPrice())) {
-            query.setParameter("minPrice", Long.valueOf(itemSearchDto.getMinPrice()));
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMaxPrice())) {
-            query.setParameter("maxPrice", Long.valueOf(itemSearchDto.getMaxPrice()));
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMinPeriod())) {
-            query.setParameter("minPeriod", Long.valueOf(itemSearchDto.getMinPeriod()));
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMaxPeriod())) {
-            query.setParameter("maxPeriod", Long.valueOf(itemSearchDto.getMaxPeriod()));
-        }
+    private static BooleanExpression nameContains(String name) {
+        return hasText(name) ? item.name.contains(name) : null;
     }
 
-    private static String buildJpql(ItemSearchDto itemSearchDto) {
-        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select i from Item i");
-
-        if (StringUtils.hasText(itemSearchDto.getName())) {
-            simpleJpqlBuilder.andWhere("i.name like :name");
-        }
-
-        if (itemSearchDto.getStatus() != null) {
-            simpleJpqlBuilder.andWhere("i.status = :status");
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMinPrice())) {
-            simpleJpqlBuilder.andWhere("i.price >= :minPrice");
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMaxPrice())) {
-            simpleJpqlBuilder.andWhere("i.price <= :maxPrice");
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMinPeriod())) {
-            simpleJpqlBuilder.andWhere("i.period >= :minPeriod");
-        }
-
-        if (StringUtils.hasText(itemSearchDto.getMaxPeriod())) {
-            simpleJpqlBuilder.andWhere("i.period <= :maxPeriod");
-        }
-
-        return simpleJpqlBuilder.build();
+    private static BooleanExpression statusEq(ItemStatus status) {
+        return (status != null) ? item.status.eq(status) : null;
     }
+
+    private static BooleanExpression priceGoe(String price) {
+        return hasText(price) ? item.price.goe(Long.valueOf(price)) : null;
+    }
+
+    private static BooleanExpression priceLoe(String price) {
+        return hasText(price) ? item.price.loe(Long.valueOf(price)) : null;
+    }
+
+    private static BooleanExpression periodGoe(String period) {
+        return hasText(period) ? item.period.goe(Long.valueOf(period)) : null;
+    }
+
+    private static BooleanExpression periodLoe(String period) {
+        return hasText(period) ? item.period.loe(Long.valueOf(period)) : null;
+    }
+
 }

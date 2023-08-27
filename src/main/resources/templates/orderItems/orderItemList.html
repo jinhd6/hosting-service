@@ -12,7 +12,7 @@
 <main layout:fragment="main">
 	<div class="card">
 		<h2 class="card-title">대여서버 관리</h2>
-		<form action="#" th:action="@{/orderItems}" th:object="${orderItemSearchDto}">
+		<form action="#" th:action="@{/orderItems}" th:object="${orderItemCond}">
 			<label th:for="orderItemName">주문상품명 (대여 서버)</label>
 			<input type="text" th:field="*{orderItemName}" />
             <label th:for="orderCustomerName">주문자명</label>

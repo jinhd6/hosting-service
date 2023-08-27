@@ -2,7 +2,7 @@ package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.*;
 import com.jmhong.hosting.dto.UsageRequestDto;
-import com.jmhong.hosting.dto.UsageSearchDto;
+import com.jmhong.hosting.dto.UsageCond;
 import com.jmhong.hosting.repository.OrderItemRepository;
 import com.jmhong.hosting.repository.UsageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class UsageService {
     }
 
     @Transactional(readOnly = true)
-    public List<Usage> search(UsageSearchDto usageSearchDto) {
-        return usageRepository.search(usageSearchDto);
+    public List<Usage> search(UsageCond usageCond) {
+        return usageRepository.search(usageCond);
     }
 
     @Transactional(readOnly = true)

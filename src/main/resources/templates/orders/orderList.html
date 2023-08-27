@@ -12,7 +12,7 @@
 <main layout:fragment="main">
 	<div class="card">
 		<h2 class="card-title">주문내역 조회</h2>
-		<form action="#" th:action="@{/orders}" th:object="${orderSearchDto}">
+		<form action="#" th:action="@{/orders}" th:object="${orderCond}">
             <label th:for="startTime">주문시간 (시작)</label>
             <input type="text" th:field="*{startTime}" />
             <label th:for="endTime">주문시간 (끝)</label>

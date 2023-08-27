@@ -12,7 +12,7 @@
 <main layout:fragment="main">
 	<div class="card">
 		<h2 class="card-title">회원 조회</h2>
-		<form action="#" th:action="@{/members}" th:object="${memberSearchDto}">
+		<form action="#" th:action="@{/members}" th:object="${memberCond}">
 			<label>아이디</label>
 			<input type="text" th:field="*{username}" />
 			<label>이름</label>

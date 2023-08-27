@@ -1,85 +1,68 @@
 package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.Member;
-import com.jmhong.hosting.dto.MemberSearchDto;
-import com.jmhong.hosting.util.SimpleJpqlBuilder;
+import com.jmhong.hosting.domain.MemberType;
+import com.jmhong.hosting.dto.MemberCond;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
+
+import static com.jmhong.hosting.domain.QMember.member;
+import static org.springframework.util.StringUtils.hasText;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Autowired
     public MemberRepositoryImpl(EntityManager em) {
         this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
-    public List<Member> search(MemberSearchDto memberSearchDto) {
-        String jpql = buildJpql(memberSearchDto);
-        TypedQuery<Member> query = em.createQuery(jpql, Member.class).setMaxResults(1000);
-        setQueryParams(memberSearchDto, query);
-        return query.getResultList();
+    public List<Member> search(MemberCond memberCond) {
+        return queryFactory
+                .select(member)
+                .from(member)
+                .where(
+                        containsUsername(memberCond.getUsername()),
+                        containsEmail(memberCond.getEmail()),
+                        containsRealName(memberCond.getRealName()),
+                        containsPhoneNumber(memberCond.getPhoneNumber()),
+                        containsAddress(memberCond.getAddress()),
+                        eqMemberType(memberCond.getType())
+                )
+                .limit(1000)
+                .fetch();
     }
 
-    private static String buildJpql(MemberSearchDto memberSearchDto) {
-        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select m from Member m");
-
-        if (StringUtils.hasText(memberSearchDto.getUsername())) {
-            simpleJpqlBuilder.andWhere("m.username like :username");
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getEmail())) {
-            simpleJpqlBuilder.andWhere("m.email like :email");
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getRealName())) {
-            simpleJpqlBuilder.andWhere("m.realName like :realName");
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getPhoneNumber())) {
-            simpleJpqlBuilder.andWhere("m.phoneNumber like :phoneNumber");
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getAddress())) {
-            simpleJpqlBuilder.andWhere("m.address like :address");
-        }
-
-        if (memberSearchDto.getType() != null) {
-            simpleJpqlBuilder.andWhere("m.type = :type");
-        }
-
-        return simpleJpqlBuilder.build();
+    private static BooleanExpression containsUsername(String cond) {
+        return hasText(cond) ? member.username.contains(cond) : null;
     }
 
-    private static void setQueryParams(MemberSearchDto memberSearchDto, TypedQuery<Member> query) {
-        if (StringUtils.hasText(memberSearchDto.getUsername())) {
-            query.setParameter("username", ("%" + memberSearchDto.getUsername() + "%"));
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getEmail())) {
-            query.setParameter("email", ("%" + memberSearchDto.getEmail() + "%"));
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getRealName())) {
-            query.setParameter("realName", ("%" + memberSearchDto.getRealName() + "%"));
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getPhoneNumber())) {
-            query.setParameter("phoneNumber", ("%" + memberSearchDto.getPhoneNumber() + "%"));
-        }
-
-        if (StringUtils.hasText(memberSearchDto.getAddress())) {
-            query.setParameter("address", ("%" + memberSearchDto.getAddress() + "%"));
-        }
-
-        if (memberSearchDto.getType() != null) {
-            query.setParameter("type", memberSearchDto.getType());
-        }
+    private static BooleanExpression containsEmail(String cond) {
+        return hasText(cond) ? member.email.contains(cond) : null;
     }
+
+    private static BooleanExpression containsRealName(String cond) {
+        return hasText(cond) ? member.realName.contains(cond) : null;
+    }
+
+    private static BooleanExpression containsPhoneNumber(String cond) {
+        return hasText(cond) ? member.phoneNumber.contains(cond) : null;
+    }
+
+    private static BooleanExpression containsAddress(String cond) {
+        return hasText(cond) ? member.address.contains(cond) : null;
+    }
+
+    private static BooleanExpression eqMemberType(MemberType cond) {
+        return cond != null ? member.type.eq(cond) : null;
+    }
+
 }

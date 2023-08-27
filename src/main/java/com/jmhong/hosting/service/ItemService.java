@@ -2,8 +2,8 @@ package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.Item;
 import com.jmhong.hosting.domain.ItemStatus;
+import com.jmhong.hosting.dto.ItemCond;
 import com.jmhong.hosting.dto.ItemRequestDto;
-import com.jmhong.hosting.dto.ItemSearchDto;
 import com.jmhong.hosting.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,8 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<Item> searchItem(ItemSearchDto itemSearchDto) {
-        return itemRepository.search(itemSearchDto);
+    public List<Item> searchItem(ItemCond itemCond) {
+        return itemRepository.search(itemCond);
     }
 
     public Item updateItem(Long itemId, ItemRequestDto dto) {

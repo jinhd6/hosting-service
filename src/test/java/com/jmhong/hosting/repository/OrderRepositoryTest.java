@@ -1,7 +1,7 @@
 package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.*;
-import com.jmhong.hosting.dto.OrderSearchDto;
+import com.jmhong.hosting.dto.OrderCond;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,36 +54,36 @@ class OrderRepositoryTest {
         em.flush();
         em.clear();
 
-        OrderSearchDto orderSearchDto1 = new OrderSearchDto(
+        OrderCond orderCond1 = new OrderCond(
                 null, null,
                 "", "", "", "",
                 null, null);
-        OrderSearchDto orderSearchDto2 = new OrderSearchDto(
+        OrderCond orderCond2 = new OrderCond(
                 LocalDateTime.of(2023, 3, 2, 14, 58),
                 LocalDateTime.of(2023, 3, 2, 14, 58),
                 "id1", "cn1", "cpn1", "ca1",
                 OrderType.NEW, OrderStatus.ORDER);
-        OrderSearchDto orderSearchDto3 = new OrderSearchDto(
+        OrderCond orderCond3 = new OrderCond(
                 LocalDateTime.of(2023, 3, 3, 14, 58),
                 LocalDateTime.of(2023, 3, 3, 14, 58),
                 "id2", "cn2", "cpn2", "ca2",
                 OrderType.EXTEND, OrderStatus.CANCEL);
-        OrderSearchDto orderSearchDto4 = new OrderSearchDto(
+        OrderCond orderCond4 = new OrderCond(
                 LocalDateTime.of(2023, 3, 2, 14, 58),
                 LocalDateTime.of(2023, 3, 3, 14, 58),
                 "d", "n", "p", "a",
                 null, null);
-        OrderSearchDto orderSearchDto5 = new OrderSearchDto(
+        OrderCond orderCond5 = new OrderCond(
                 LocalDateTime.of(2023, 3, 1, 14, 58),
                 LocalDateTime.of(2023, 3, 2, 14, 57),
                 "xx", "xx", "xx", "xx",
                 null, null);
 
-        List<Order> findOrders1 = orderRepository.search(orderSearchDto1);
-        List<Order> findOrders2 = orderRepository.search(orderSearchDto2);
-        List<Order> findOrders3 = orderRepository.search(orderSearchDto3);
-        List<Order> findOrders4 = orderRepository.search(orderSearchDto4);
-        List<Order> findOrders5 = orderRepository.search(orderSearchDto5);
+        List<Order> findOrders1 = orderRepository.search(orderCond1);
+        List<Order> findOrders2 = orderRepository.search(orderCond2);
+        List<Order> findOrders3 = orderRepository.search(orderCond3);
+        List<Order> findOrders4 = orderRepository.search(orderCond4);
+        List<Order> findOrders5 = orderRepository.search(orderCond5);
 
         assertEquals(2, findOrders1.size());
         assertEquals(1, findOrders2.size());

@@ -2,9 +2,9 @@ package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.Member;
 import com.jmhong.hosting.domain.MemberType;
+import com.jmhong.hosting.dto.MemberCond;
 import com.jmhong.hosting.dto.MemberCreateDto;
 import com.jmhong.hosting.dto.MemberResponseDto;
-import com.jmhong.hosting.dto.MemberSearchDto;
 import com.jmhong.hosting.dto.MemberUpdateDto;
 import com.jmhong.hosting.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
@@ -54,11 +54,11 @@ class MemberServiceTest {
                 "이름1", "010-0000-0001", "주소1", MemberType.MEMBER);
         Member member2 = createMember("id2", "pw2", "id2@email.com",
                 "이름2", "010-0000-0002", "주소2", MemberType.ADMIN);
-        MemberSearchDto memberSearchDto = new MemberSearchDto("id", "email.com",
+        MemberCond memberCond = new MemberCond("id", "email.com",
                 "이름", "010", "주소", null);
 
         // When
-        List<MemberResponseDto> memberResponses = memberService.searchMember(memberSearchDto);
+        List<MemberResponseDto> memberResponses = memberService.searchMember(memberCond);
 
         // Then
         assertEquals(2, memberResponses.size());

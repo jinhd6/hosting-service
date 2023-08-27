@@ -54,10 +54,10 @@ class UsageServiceTest {
     void search() {
         Usage usage1 = mock(Usage.class);
         Usage usage2 = mock(Usage.class);
-        UsageSearchDto usageSearchDto = mock(UsageSearchDto.class);
-        when(usageRepository.search(usageSearchDto)).thenReturn(new ArrayList<>(Arrays.asList(usage1, usage2)));
+        UsageCond usageCond = mock(UsageCond.class);
+        when(usageRepository.search(usageCond)).thenReturn(new ArrayList<>(Arrays.asList(usage1, usage2)));
 
-        List<Usage> usages = usageService.search(usageSearchDto);
+        List<Usage> usages = usageService.search(usageCond);
 
         assertEquals(2, usages.size());
         assertTrue(usages.contains(usage1));

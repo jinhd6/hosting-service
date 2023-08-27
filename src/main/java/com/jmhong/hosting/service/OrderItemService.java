@@ -1,7 +1,7 @@
 package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.*;
-import com.jmhong.hosting.dto.OrderItemSearchDto;
+import com.jmhong.hosting.dto.OrderItemCond;
 import com.jmhong.hosting.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +36,8 @@ public class OrderItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<OrderItem> search(OrderItemSearchDto orderItemSearchDto) {
-        return orderItemRepository.search(orderItemSearchDto);
+    public List<OrderItem> search(OrderItemCond orderItemCond) {
+        return orderItemRepository.search(orderItemCond);
     }
 
     @Transactional(readOnly = true)

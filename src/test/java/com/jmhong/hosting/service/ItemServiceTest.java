@@ -2,8 +2,8 @@ package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.Item;
 import com.jmhong.hosting.domain.ItemStatus;
+import com.jmhong.hosting.dto.ItemCond;
 import com.jmhong.hosting.dto.ItemRequestDto;
-import com.jmhong.hosting.dto.ItemSearchDto;
 import com.jmhong.hosting.repository.ItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,10 +47,10 @@ class ItemServiceTest {
         // Given
         Item item1 = createItem("item1", 11111L, 111L, ItemStatus.SALE);
         Item item2 = createItem("item2", 22222L, 222L, ItemStatus.SUSPEND);
-        ItemSearchDto itemSearchDto = new ItemSearchDto("item", null, "11111", "22222", "111", "222");
+        ItemCond itemCond = new ItemCond("item", null, "11111", "22222", "111", "222");
 
         // When
-        List<Item> findItems = itemService.searchItem(itemSearchDto);
+        List<Item> findItems = itemService.searchItem(itemCond);
 
         // Then
         assertEquals(2, findItems.size());

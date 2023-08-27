@@ -3,7 +3,7 @@ package com.jmhong.hosting.controller;
 import com.jmhong.hosting.domain.Item;
 import com.jmhong.hosting.domain.ItemStatus;
 import com.jmhong.hosting.dto.ItemRequestDto;
-import com.jmhong.hosting.dto.ItemSearchDto;
+import com.jmhong.hosting.dto.ItemCond;
 import com.jmhong.hosting.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +39,9 @@ public class ItemController {
     }
 
     @GetMapping("/items")
-    public String itemList(Model model, @ModelAttribute ItemSearchDto itemSearchDto) {
-        List<Item> items = itemService.searchItem(itemSearchDto);
-        model.addAttribute("itemSearchDto", itemSearchDto);
+    public String itemList(Model model, @ModelAttribute ItemCond itemCond) {
+        List<Item> items = itemService.searchItem(itemCond);
+        model.addAttribute("itemSearchDto", itemCond);
         model.addAttribute("items", items);
         model.addAttribute("itemStatuses", ItemStatus.values());
         return "/items/itemList";

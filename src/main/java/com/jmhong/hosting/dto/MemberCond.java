@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberSearchDto {
+public class MemberCond {
 
     private String username;
     private String email;
@@ -15,7 +15,7 @@ public class MemberSearchDto {
     private String address;
     private MemberType type;
 
-    public MemberSearchDto(String username, String email, String realName, String phoneNumber, String address, MemberType type) {
+    public MemberCond(String username, String email, String realName, String phoneNumber, String address, MemberType type) {
         this.username = username;
         this.email = email;
         this.realName = realName;
@@ -24,6 +24,6 @@ public class MemberSearchDto {
         this.type = type;
     }
 
-    public MemberSearchDto() {
+    public MemberCond() {
     }
 }

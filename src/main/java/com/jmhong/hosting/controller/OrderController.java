@@ -2,7 +2,7 @@ package com.jmhong.hosting.controller;
 
 import com.jmhong.hosting.domain.*;
 import com.jmhong.hosting.dto.OrderRequestDto;
-import com.jmhong.hosting.dto.OrderSearchDto;
+import com.jmhong.hosting.dto.OrderCond;
 import com.jmhong.hosting.service.ItemService;
 import com.jmhong.hosting.service.MemberService;
 import com.jmhong.hosting.service.OrderService;
@@ -47,9 +47,9 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public String orderList(Model model, @ModelAttribute OrderSearchDto orderSearchDto) {
-        List<Order> orders = orderService.search(orderSearchDto);
-        model.addAttribute("orderSearchDto", new OrderSearchDto());
+    public String orderList(Model model, @ModelAttribute OrderCond orderCond) {
+        List<Order> orders = orderService.search(orderCond);
+        model.addAttribute("orderSearchDto", new OrderCond());
         model.addAttribute("orders", orders);
         model.addAttribute("orderTypes", OrderType.values());
         model.addAttribute("orderStatuses", OrderStatus.values());

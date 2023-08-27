@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class OrderItemSearchDto {
+public class OrderItemCond {
 
     private String orderItemName;
     private String orderCustomerName;
@@ -22,7 +22,7 @@ public class OrderItemSearchDto {
 
     private OrderItemStatus status;
 
-    public OrderItemSearchDto(String orderItemName, String orderCustomerName, LocalDateTime startTime, LocalDateTime endTime, OrderItemStatus status) {
+    public OrderItemCond(String orderItemName, String orderCustomerName, LocalDateTime startTime, LocalDateTime endTime, OrderItemStatus status) {
         this.orderItemName = orderItemName;
         this.orderCustomerName = orderCustomerName;
         this.startTime = startTime;
@@ -30,6 +30,6 @@ public class OrderItemSearchDto {
         this.status = status;
     }
 
-    public OrderItemSearchDto() {
+    public OrderItemCond() {
     }
 }

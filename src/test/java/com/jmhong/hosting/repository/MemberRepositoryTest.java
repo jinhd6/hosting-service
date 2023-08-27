@@ -1,7 +1,7 @@
 package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.Member;
-import com.jmhong.hosting.dto.MemberSearchDto;
+import com.jmhong.hosting.dto.MemberCond;
 import com.jmhong.hosting.domain.MemberType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,17 +37,17 @@ class MemberRepositoryTest {
         em.flush();
         em.clear();
 
-        MemberSearchDto memberSearchDto1 = new MemberSearchDto("", "", "", "", "", null);
-        MemberSearchDto memberSearchDto2 = new MemberSearchDto("id1", "a1@a.com", "rn1", "pn1", "adr1", MemberType.MEMBER);
-        MemberSearchDto memberSearchDto3 = new MemberSearchDto("id2", "a2@a.com", "rn2", "pn2", "adr2", MemberType.ADMIN);
-        MemberSearchDto memberSearchDto4 = new MemberSearchDto("d", "a", "n", "n", "d", null);
-        MemberSearchDto memberSearchDto5 = new MemberSearchDto("xx", "xx", "xx", "xx", "xx", null);
+        MemberCond memberCond1 = new MemberCond("", "", "", "", "", null);
+        MemberCond memberCond2 = new MemberCond("id1", "a1@a.com", "rn1", "pn1", "adr1", MemberType.MEMBER);
+        MemberCond memberCond3 = new MemberCond("id2", "a2@a.com", "rn2", "pn2", "adr2", MemberType.ADMIN);
+        MemberCond memberCond4 = new MemberCond("d", "a", "n", "n", "d", null);
+        MemberCond memberCond5 = new MemberCond("xx", "xx", "xx", "xx", "xx", null);
 
-        List<Member> findMembers1 = memberRepository.search(memberSearchDto1);
-        List<Member> findMembers2 = memberRepository.search(memberSearchDto2);
-        List<Member> findMembers3 = memberRepository.search(memberSearchDto3);
-        List<Member> findMembers4 = memberRepository.search(memberSearchDto4);
-        List<Member> findMembers5 = memberRepository.search(memberSearchDto5);
+        List<Member> findMembers1 = memberRepository.search(memberCond1);
+        List<Member> findMembers2 = memberRepository.search(memberCond2);
+        List<Member> findMembers3 = memberRepository.search(memberCond3);
+        List<Member> findMembers4 = memberRepository.search(memberCond4);
+        List<Member> findMembers5 = memberRepository.search(memberCond5);
 
         assertEquals(2, findMembers1.size());
         assertEquals(1, findMembers2.size());

@@ -1,81 +1,74 @@
 package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.OrderItem;
-import com.jmhong.hosting.dto.OrderItemSearchDto;
-import com.jmhong.hosting.util.SimpleJpqlBuilder;
+import com.jmhong.hosting.domain.OrderItemStatus;
+import com.jmhong.hosting.dto.OrderItemCond;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.jmhong.hosting.domain.QOrder.order;
+import static com.jmhong.hosting.domain.QOrderItem.orderItem;
+import static org.springframework.util.StringUtils.hasText;
 
 public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Autowired
     public OrderItemRepositoryImpl(EntityManager em) {
         this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
-    public List<OrderItem> search(OrderItemSearchDto orderItemSearchDto) {
-        String jpql = buildJpql(orderItemSearchDto);
-        TypedQuery<OrderItem> query = em.createQuery(jpql, OrderItem.class).setMaxResults(1000);
-        setQueryParams(orderItemSearchDto, query);
-        return query.getResultList();
+    public List<OrderItem> search(OrderItemCond orderItemCond) {
+        return queryFactory
+                .select(orderItem)
+                .from(orderItem)
+                .join(orderItem.order, order)
+                .where(
+                        nameContains(orderItemCond.getOrderItemName()),
+                        customerNameContains(orderItemCond.getOrderCustomerName()),
+                        activateDateLoe(orderItemCond.getStartTime(), orderItemCond.getEndTime()),
+                        expireDateGoe(orderItemCond.getStartTime(), orderItemCond.getEndTime()),
+                        statusEq(orderItemCond.getStatus())
+                )
+                .limit(1000)
+                .fetch();
     }
 
-    private static void setQueryParams(OrderItemSearchDto orderItemSearchDto, TypedQuery<OrderItem> query) {
-        if (StringUtils.hasText(orderItemSearchDto.getOrderItemName())) {
-            query.setParameter("orderItemName", ("%" + orderItemSearchDto.getOrderItemName() + "%"));
-        }
+    private static BooleanExpression nameContains(String cond) {
+        return hasText(cond) ? orderItem.name.contains(cond) : null;
+    }
 
-        if (StringUtils.hasText(orderItemSearchDto.getOrderCustomerName())) {
-            query.setParameter("orderCustomerName", ("%" + orderItemSearchDto.getOrderCustomerName() + "%"));
-        }
+    private static BooleanExpression customerNameContains(String cond) {
+        return hasText(cond) ? order.customerName.contains(cond) : null;
+    }
 
-        if (orderItemSearchDto.getStartTime() != null &&
-                (!orderItemSearchDto.getStartTime().isAfter(orderItemSearchDto.getEndTime()))) {
-            query.setParameter("startTime", orderItemSearchDto.getStartTime());
-        }
-
-        if (orderItemSearchDto.getEndTime() != null &&
-                (!orderItemSearchDto.getEndTime().isBefore(orderItemSearchDto.getStartTime()))) {
-            query.setParameter("endTime", orderItemSearchDto.getEndTime());
-        }
-
-        if (orderItemSearchDto.getStatus() != null) {
-            query.setParameter("status", orderItemSearchDto.getStatus());
+    private static BooleanExpression activateDateLoe(LocalDateTime startTime, LocalDateTime endTime) {
+        if ((endTime != null) && (!endTime.isBefore(startTime))) {
+            return orderItem.activateDate.loe(endTime);
+        } else {
+            return null;
         }
     }
 
-    private static String buildJpql(OrderItemSearchDto orderItemSearchDto) {
-        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select oi from OrderItem oi join oi.order o");
-
-        if (StringUtils.hasText(orderItemSearchDto.getOrderItemName())) {
-            simpleJpqlBuilder.andWhere("oi.name like :orderItemName");
+    private static BooleanExpression expireDateGoe(LocalDateTime startTime, LocalDateTime endTime) {
+        if ((startTime != null) && (!startTime.isAfter(endTime))) {
+            return orderItem.expireDate.goe(startTime);
+        } else {
+            return null;
         }
-
-        if (StringUtils.hasText(orderItemSearchDto.getOrderCustomerName())) {
-            simpleJpqlBuilder.andWhere("o.customerName like :orderCustomerName");
-        }
-
-        if (orderItemSearchDto.getStartTime() != null &&
-                (!orderItemSearchDto.getStartTime().isAfter(orderItemSearchDto.getEndTime()))) {
-            simpleJpqlBuilder.andWhere("oi.expireDate >= :startTime");
-        }
-
-        if (orderItemSearchDto.getEndTime() != null &&
-                (!orderItemSearchDto.getEndTime().isBefore(orderItemSearchDto.getStartTime()))) {
-            simpleJpqlBuilder.andWhere("oi.activateDate <= :endTime");
-        }
-
-        if (orderItemSearchDto.getStatus() != null) {
-            simpleJpqlBuilder.andWhere("oi.status = :status");
-        }
-
-        return simpleJpqlBuilder.build();
     }
+
+    private static BooleanExpression statusEq(OrderItemStatus cond) {
+        return (cond != null) ? orderItem.status.eq(cond) : null;
+    }
+
 }

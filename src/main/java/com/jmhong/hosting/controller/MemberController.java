@@ -1,8 +1,8 @@
 package com.jmhong.hosting.controller;
 
 import com.jmhong.hosting.domain.MemberType;
+import com.jmhong.hosting.dto.MemberCond;
 import com.jmhong.hosting.dto.MemberResponseDto;
-import com.jmhong.hosting.dto.MemberSearchDto;
 import com.jmhong.hosting.dto.MemberUpdateDto;
 import com.jmhong.hosting.service.MemberService;
 import com.jmhong.hosting.dto.MemberCreateDto;
@@ -36,9 +36,9 @@ public class MemberController {
     }
 
     @GetMapping("/members")
-    public String memberList(Model model, @ModelAttribute MemberSearchDto memberSearchDto) {
-        List<MemberResponseDto> searchResults = memberService.searchMember(memberSearchDto);
-        model.addAttribute("memberSearchDto", new MemberSearchDto());
+    public String memberList(Model model, @ModelAttribute MemberCond memberCond) {
+        List<MemberResponseDto> searchResults = memberService.searchMember(memberCond);
+        model.addAttribute("memberSearchDto", new MemberCond());
         model.addAttribute("results", searchResults);
         model.addAttribute("memberTypes", MemberType.values());
         return "/members/memberList";

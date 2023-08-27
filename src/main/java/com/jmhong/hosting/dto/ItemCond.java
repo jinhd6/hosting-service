@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ItemSearchDto {
+public class ItemCond {
 
     private String name;
     private ItemStatus status;
@@ -15,7 +15,7 @@ public class ItemSearchDto {
     private String minPeriod;
     private String maxPeriod;
 
-    public ItemSearchDto(String name, ItemStatus status, String minPrice, String maxPrice, String minPeriod, String maxPeriod) {
+    public ItemCond(String name, ItemStatus status, String minPrice, String maxPrice, String minPeriod, String maxPeriod) {
         this.name = name;
         this.status = status;
         this.minPrice = minPrice;
@@ -24,6 +24,6 @@ public class ItemSearchDto {
         this.maxPeriod = maxPeriod;
     }
 
-    public ItemSearchDto() {
+    public ItemCond() {
     }
 }

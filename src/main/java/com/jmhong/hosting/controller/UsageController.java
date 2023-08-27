@@ -4,7 +4,7 @@ import com.jmhong.hosting.domain.OrderItem;
 import com.jmhong.hosting.domain.Usage;
 import com.jmhong.hosting.dto.MemberResponseDto;
 import com.jmhong.hosting.dto.UsageRequestDto;
-import com.jmhong.hosting.dto.UsageSearchDto;
+import com.jmhong.hosting.dto.UsageCond;
 import com.jmhong.hosting.service.OrderItemService;
 import com.jmhong.hosting.service.UsageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +47,9 @@ public class UsageController {
     }
 
     @GetMapping("/usages")
-    public String usageList(Model model, @ModelAttribute UsageSearchDto usageSearchDto) {
-        List<Usage> usages = usageService.search(usageSearchDto);
-        model.addAttribute("usageSearchDto", new UsageSearchDto());
+    public String usageList(Model model, @ModelAttribute UsageCond usageCond) {
+        List<Usage> usages = usageService.search(usageCond);
+        model.addAttribute("usageSearchDto", new UsageCond());
         model.addAttribute("usages", usages);
         return "/usages/usageList";
     }

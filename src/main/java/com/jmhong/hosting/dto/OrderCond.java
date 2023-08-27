@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class OrderSearchDto {
+public class OrderCond {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startTime;
@@ -25,9 +25,9 @@ public class OrderSearchDto {
     private OrderType type;
     private OrderStatus status;
 
-    public OrderSearchDto(LocalDateTime startTime, LocalDateTime endTime, String memberUsername,
-                          String customerName, String customerPhoneNumber, String customerAddress,
-                          OrderType type, OrderStatus status) {
+    public OrderCond(LocalDateTime startTime, LocalDateTime endTime, String memberUsername,
+                     String customerName, String customerPhoneNumber, String customerAddress,
+                     OrderType type, OrderStatus status) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.memberUsername = memberUsername;
@@ -38,6 +38,6 @@ public class OrderSearchDto {
         this.status = status;
     }
 
-    public OrderSearchDto() {
+    public OrderCond() {
     }
 }

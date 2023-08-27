@@ -1,8 +1,8 @@
 package com.jmhong.hosting.service;
 
 import com.jmhong.hosting.domain.*;
+import com.jmhong.hosting.dto.OrderCond;
 import com.jmhong.hosting.dto.OrderRequestDto;
-import com.jmhong.hosting.dto.OrderSearchDto;
 import com.jmhong.hosting.repository.ItemRepository;
 import com.jmhong.hosting.repository.MemberRepository;
 import com.jmhong.hosting.repository.OrderRepository;
@@ -40,8 +40,8 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<Order> search(OrderSearchDto orderSearchDto) {
-        return orderRepository.search(orderSearchDto);
+    public List<Order> search(OrderCond orderCond) {
+        return orderRepository.search(orderCond);
     }
 
     @Transactional(readOnly = true)

@@ -1,105 +1,88 @@
 package com.jmhong.hosting.repository;
 
-import com.jmhong.hosting.domain.Order;
-import com.jmhong.hosting.dto.OrderSearchDto;
-import com.jmhong.hosting.util.SimpleJpqlBuilder;
+import com.jmhong.hosting.domain.*;
+import com.jmhong.hosting.dto.OrderCond;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.jmhong.hosting.domain.QMember.member;
+import static com.jmhong.hosting.domain.QOrder.order;
+import static org.springframework.util.StringUtils.hasText;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Autowired
     public OrderRepositoryImpl(EntityManager em) {
         this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
-    public List<Order> search(OrderSearchDto orderSearchDto) {
-        String jpql = buildJpql(orderSearchDto);
-        TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000);
-        setQueryParams(orderSearchDto, query);
-        return query.getResultList();
+    public List<Order> search(OrderCond orderCond) {
+        return queryFactory
+                .select(order)
+                .from(order)
+                .join(order.member, member)
+                .where(
+                        orderDateGoe(orderCond.getStartTime(), orderCond.getEndTime()),
+                        orderDateLoe(orderCond.getStartTime(), orderCond.getEndTime()),
+                        usernameContains(orderCond.getMemberUsername()),
+                        customerNameContains(orderCond.getCustomerName()),
+                        customerPhoneNumberContains(orderCond.getCustomerPhoneNumber()),
+                        customerAddressContains(orderCond.getCustomerAddress()),
+                        typeEq(orderCond.getType()),
+                        statusEq(orderCond.getStatus())
+                )
+                .limit(1000)
+                .fetch();
     }
 
-    private static void setQueryParams(OrderSearchDto orderSearchDto, TypedQuery<Order> query) {
-        if (orderSearchDto.getStartTime() != null &&
-                (!orderSearchDto.getStartTime().isAfter(orderSearchDto.getEndTime()))) {
-            query.setParameter("startTime", orderSearchDto.getStartTime());
-        }
-
-        if (orderSearchDto.getEndTime() != null &&
-                (!orderSearchDto.getEndTime().isBefore(orderSearchDto.getStartTime()))) {
-            query.setParameter("endTime", orderSearchDto.getEndTime());
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getMemberUsername())) {
-            query.setParameter("username", ("%" + orderSearchDto.getMemberUsername() + "%"));
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getCustomerName())) {
-            query.setParameter("customerName", ("%" + orderSearchDto.getCustomerName() + "%"));
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getCustomerPhoneNumber())) {
-            query.setParameter("customerPhoneNumber", ("%" + orderSearchDto.getCustomerPhoneNumber() + "%"));
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getCustomerAddress())) {
-            query.setParameter("customerAddress", ("%" + orderSearchDto.getCustomerAddress() + "%"));
-        }
-
-        if (orderSearchDto.getType() != null) {
-            query.setParameter("type", orderSearchDto.getType());
-        }
-
-        if (orderSearchDto.getStatus() != null) {
-            query.setParameter("status", orderSearchDto.getStatus());
+    private static BooleanExpression orderDateGoe(LocalDateTime startTime, LocalDateTime endTime) {
+        if ((startTime != null) && (!startTime.isAfter(endTime))) {
+            return order.orderDate.goe(startTime);
+        } else {
+            return null;
         }
     }
 
-    private static String buildJpql(OrderSearchDto orderSearchDto) {
-        SimpleJpqlBuilder simpleJpqlBuilder = new SimpleJpqlBuilder("select o from Order o join o.member m");
-
-        if (orderSearchDto.getStartTime() != null &&
-                (!orderSearchDto.getStartTime().isAfter(orderSearchDto.getEndTime()))) {
-            simpleJpqlBuilder.andWhere("o.orderDate >= :startTime");
+    private static BooleanExpression orderDateLoe(LocalDateTime startTime, LocalDateTime endTime) {
+        if ((endTime != null) && (!endTime.isBefore(startTime))) {
+            return order.orderDate.loe(endTime);
+        } else {
+            return null;
         }
-
-        if (orderSearchDto.getEndTime() != null &&
-                (!orderSearchDto.getEndTime().isBefore(orderSearchDto.getStartTime()))) {
-            simpleJpqlBuilder.andWhere("o.orderDate <= :endTime");
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getMemberUsername())) {
-            simpleJpqlBuilder.andWhere("m.username like :username");
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getCustomerName())) {
-            simpleJpqlBuilder.andWhere("o.customerName like :customerName");
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getCustomerPhoneNumber())) {
-            simpleJpqlBuilder.andWhere("o.customerPhoneNumber like :customerPhoneNumber");
-        }
-
-        if (StringUtils.hasText(orderSearchDto.getCustomerAddress())) {
-            simpleJpqlBuilder.andWhere("o.customerAddress like :customerAddress");
-        }
-
-        if (orderSearchDto.getType() != null) {
-            simpleJpqlBuilder.andWhere("o.type = :type");
-        }
-
-        if (orderSearchDto.getStatus() != null) {
-            simpleJpqlBuilder.andWhere("o.status = :status");
-        }
-
-        return simpleJpqlBuilder.build();
     }
+
+    private static BooleanExpression usernameContains(String cond) {
+        return hasText(cond) ? member.username.contains(cond) : null;
+    }
+
+    private static BooleanExpression customerNameContains(String cond) {
+        return hasText(cond) ? order.customerName.contains(cond) : null;
+    }
+
+    private static BooleanExpression customerPhoneNumberContains(String cond) {
+        return hasText(cond) ? order.customerPhoneNumber.contains(cond) : null;
+    }
+
+    private static BooleanExpression customerAddressContains(String cond) {
+        return hasText(cond) ? order.customerAddress.contains(cond) : null;
+    }
+
+    private static BooleanExpression typeEq(OrderType cond) {
+        return (cond != null) ? order.type.eq(cond) : null;
+    }
+
+    private static BooleanExpression statusEq(OrderStatus cond) {
+        return (cond != null) ? order.status.eq(cond) : null;
+    }
+
 }

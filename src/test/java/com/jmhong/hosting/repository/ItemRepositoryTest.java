@@ -2,7 +2,7 @@ package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.Item;
 import com.jmhong.hosting.domain.ItemStatus;
-import com.jmhong.hosting.dto.ItemSearchDto;
+import com.jmhong.hosting.dto.ItemCond;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +35,17 @@ class ItemRepositoryTest {
         em.flush();
         em.clear();
 
-        ItemSearchDto itemSearchDto1 = new ItemSearchDto("", null, "", "", "", "");
-        ItemSearchDto itemSearchDto2 = new ItemSearchDto("item1", ItemStatus.SALE, "11111", "11111", "111", "111");
-        ItemSearchDto itemSearchDto3 = new ItemSearchDto("item2", ItemStatus.SUSPEND, "22222", "22222", "222", "222");
-        ItemSearchDto itemSearchDto4 = new ItemSearchDto("tem", null, "11111", "22222", "111", "222");
-        ItemSearchDto itemSearchDto5 = new ItemSearchDto("xx", null, "22222", "11111", "222", "111");
+        ItemCond itemCond1 = new ItemCond("", null, "", "", "", "");
+        ItemCond itemCond2 = new ItemCond("item1", ItemStatus.SALE, "11111", "11111", "111", "111");
+        ItemCond itemCond3 = new ItemCond("item2", ItemStatus.SUSPEND, "22222", "22222", "222", "222");
+        ItemCond itemCond4 = new ItemCond("tem", null, "11111", "22222", "111", "222");
+        ItemCond itemCond5 = new ItemCond("xx", null, "22222", "11111", "222", "111");
 
-        List<Item> findItem1 = itemRepository.search(itemSearchDto1);
-        List<Item> findItem2 = itemRepository.search(itemSearchDto2);
-        List<Item> findItem3 = itemRepository.search(itemSearchDto3);
-        List<Item> findItem4 = itemRepository.search(itemSearchDto4);
-        List<Item> findItem5 = itemRepository.search(itemSearchDto5);
+        List<Item> findItem1 = itemRepository.search(itemCond1);
+        List<Item> findItem2 = itemRepository.search(itemCond2);
+        List<Item> findItem3 = itemRepository.search(itemCond3);
+        List<Item> findItem4 = itemRepository.search(itemCond4);
+        List<Item> findItem5 = itemRepository.search(itemCond5);
 
         assertEquals(2, findItem1.size());
         assertEquals(1, findItem2.size());

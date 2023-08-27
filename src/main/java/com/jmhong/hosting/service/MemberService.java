@@ -4,7 +4,7 @@ import com.jmhong.hosting.domain.Member;
 import com.jmhong.hosting.domain.MemberType;
 import com.jmhong.hosting.dto.MemberCreateDto;
 import com.jmhong.hosting.dto.MemberResponseDto;
-import com.jmhong.hosting.dto.MemberSearchDto;
+import com.jmhong.hosting.dto.MemberCond;
 import com.jmhong.hosting.dto.MemberUpdateDto;
 import com.jmhong.hosting.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +38,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public List<MemberResponseDto> searchMember(MemberSearchDto memberSearchDto) {
-        List<Member> members = memberRepository.search(memberSearchDto);
+    public List<MemberResponseDto> searchMember(MemberCond memberCond) {
+        List<Member> members = memberRepository.search(memberCond);
         List<MemberResponseDto> memberResponses = new ArrayList<>();
         for (Member member : members) {
             MemberResponseDto memberResponse = new MemberResponseDto(member);

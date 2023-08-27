@@ -1,7 +1,7 @@
 package com.jmhong.hosting.repository;
 
 import com.jmhong.hosting.domain.*;
-import com.jmhong.hosting.dto.UsageSearchDto;
+import com.jmhong.hosting.dto.UsageCond;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,30 +75,30 @@ class UsageRepositoryTest {
         em.flush();
         em.clear();
 
-        UsageSearchDto usageSearchDto1 = new UsageSearchDto(
+        UsageCond usageCond1 = new UsageCond(
                 "", "", null, null);
-        UsageSearchDto usageSearchDto2 = new UsageSearchDto(
+        UsageCond usageCond2 = new UsageCond(
                 "id1", "oi1",
                 LocalDateTime.of(2023, 3, 2, 11, 41),
                 LocalDateTime.of(2023, 3, 2, 23, 41));
-        UsageSearchDto usageSearchDto3 = new UsageSearchDto(
+        UsageCond usageCond3 = new UsageCond(
                 "id2", "oi2",
                 LocalDateTime.of(2023, 3, 3, 11, 41),
                 LocalDateTime.of(2023, 3, 3, 23, 41));
-        UsageSearchDto usageSearchDto4 = new UsageSearchDto(
+        UsageCond usageCond4 = new UsageCond(
                 "d", "i",
                 LocalDateTime.of(2023, 3, 2, 11, 41),
                 LocalDateTime.of(2023, 3, 3, 23, 41));
-        UsageSearchDto usageSearchDto5 = new UsageSearchDto(
+        UsageCond usageCond5 = new UsageCond(
                 "xx", "xx",
                 LocalDateTime.of(2023, 3, 1, 11, 41),
                 LocalDateTime.of(2023, 3, 2, 11, 40));
 
-        List<Usage> findUsage1 = usageRepository.search(usageSearchDto1);
-        List<Usage> findUsage2 = usageRepository.search(usageSearchDto2);
-        List<Usage> findUsage3 = usageRepository.search(usageSearchDto3);
-        List<Usage> findUsage4 = usageRepository.search(usageSearchDto4);
-        List<Usage> findUsage5 = usageRepository.search(usageSearchDto5);
+        List<Usage> findUsage1 = usageRepository.search(usageCond1);
+        List<Usage> findUsage2 = usageRepository.search(usageCond2);
+        List<Usage> findUsage3 = usageRepository.search(usageCond3);
+        List<Usage> findUsage4 = usageRepository.search(usageCond4);
+        List<Usage> findUsage5 = usageRepository.search(usageCond5);
 
         assertEquals(2, findUsage1.size());
         assertEquals(1, findUsage2.size());
